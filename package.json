@@ -19,6 +19,12 @@
     "lint": "eslint \"src/**/*.{js,jsx}\"",
     "lint:fix": "eslint --fix \"src/**/*.{js,jsx}\""
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint --fix",
+      "pre-push": "yarn lint --fix"
+    }
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
