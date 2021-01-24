@@ -1,0 +1,43 @@
+
+.btn-facebook {
+    background-color: #405D9D;
+    color: #fff;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.btn-google {
+    border: 1px solid blue;
+    background-color: #fff;
+    color: #f56a81; 
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.divider-text {
+    position: relative;
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.divider-text h1 {
+    position: relative;   
+    padding: 7px;
+    font-size: 12px;
+    z-index: 2;
+}
+
+.divider-text:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    border-bottom: 1px solid rgb(197, 196, 196);
+    top: 55%;
+    left: 0;
+    z-index: 1;
+}
+
+.required .control-span:after {
+    content:"*";
+    color:red;
+}

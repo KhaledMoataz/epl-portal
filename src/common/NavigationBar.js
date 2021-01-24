@@ -34,6 +34,11 @@ const NavigationBar = () => (
                             <Link to="/reservation">Reservation</Link>
                         </Nav.Link>
                     </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link>
+                            <Link to="/signup">Signup</Link>
+                        </Nav.Link>
+                    </Nav.Item>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
