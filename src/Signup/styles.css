@@ -1,9 +1,13 @@
+
+/* Style for the facebook button in signup */
 .btn-facebook {
     background-color: #405d9d;
     color: #fff;
     margin-top: 15px;
     margin-bottom: 15px;
 }
+
+/* Style for the google button in signup */
 .btn-google {
     border: 1px solid blue;
     background-color: #fff;
@@ -12,6 +16,7 @@
     margin-bottom: 15px;
 }
 
+/* Style for the divider-text after the social media buttons in signup */
 .divider-text {
     position: relative;
     text-align: center;
@@ -19,13 +24,15 @@
     margin-bottom: 15px;
 }
 
-.divider-text h1 {
-    position: relative;
+/* Style for the text that in the divider-text after the social media buttons in signup */
+.divider-text span {
+    position: relative;   
     padding: 7px;
     font-size: 12px;
     z-index: 2;
 }
 
+/* Style for the line that in the divider-text after the social media buttons in signup */
 .divider-text:after {
     content: '';
     position: absolute;
@@ -36,6 +43,7 @@
     z-index: 1;
 }
 
+/* Style for the required elements in signup */
 .required .control-span:after {
     content: '*';
     color: red;

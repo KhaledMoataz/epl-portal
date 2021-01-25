@@ -1,5 +1,16 @@
 import React from 'react';
 
+/*  Each Item is form group consist of 3 elemets
+        1- icon             --> It presents icon for each item
+        2- editedElement    --> It presents the edited element e.g. date, text, password ..etc
+        3- invalidMessage   --> It presents error message in case there is an error
+    The item have 4 different cases
+        1- gender       --> it's a special case because it has specific values(Male/Female)
+        2- role         --> it's a special case because it has specific values(Fan/Manager)
+        3- address      --> it's a special case becuase it's not required
+        4- others       --> all elements that are required and don't have specific values
+*/
+
 function Item(props) {
     let editedElement;
     let isRequired = 'required';

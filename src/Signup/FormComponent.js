@@ -1,6 +1,20 @@
 import React from 'react';
 import Item from './Item';
 
+/*  The Form Component consists of 10 Items and 1 Button
+    The 10 Items are:
+        username, password, first_name, last_name, birthdate,
+        gender, city, address, email, role
+    each item has its own properties:
+        1- name:            unique name for this item
+        2- onChange:        function to control the item when its value changes
+        3- item:            icon th preappend it in the item
+        4- type:            the input type for this item e.g. text, password, date ... etc
+        5- placeholder:     message to be shown inside the input if empty
+        6- invalid_message  the message to be shown below the item if typed invalid input
+        7- validation       when 'is-invalid' it shows error message below this item
+*/
+
 const FormComponent = (props) => (
     <form className="form-data" onSubmit={props.submitHandler}>
         <Item
@@ -10,7 +24,7 @@ const FormComponent = (props) => (
             type="text"
             placeholder="Username"
             invalid_message={props.user_message}
-            validation={props.user_message == null ? '' : 'is-invalid'}
+            validation={props.user_message ? 'is-invalid' : ''}
         />
         <Item
             name="password"
@@ -19,7 +33,7 @@ const FormComponent = (props) => (
             type="password"
             placeholder="Password"
             invalid_message={props.pass_message}
-            validation={props.pass_message == null ? '' : 'is-invalid'}
+            validation={props.pass_message ? 'is-invalid' : ''}
         />
 
         <Item
@@ -76,7 +90,7 @@ const FormComponent = (props) => (
             type="email"
             placeholder="email"
             invalid_message={props.email_message}
-            validation={props.email_message == null ? '' : 'is-invalid'}
+            validation={props.email_message ? 'is-invalid' : ''}
         />
 
         <Item
