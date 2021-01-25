@@ -1,23 +1,23 @@
 import React from 'react';
 import Form from './FormContainer';
-import './styles.css';
+import '../Signup/styles.css';
 
-/*  Singup is a Card, and its body consists of three components
-        1- myHeader(Card title) --> It presents "Create Account"
+/*  Login is a Card, and its body consists of three components
+        1- myHeader(Card title) --> It presents "Login"
         2- mySocial             --> It presents "Google and Facebook Buttons"
         3- Form
 */
 
-function Signup() {
-    const myHeader = <h1 className="card-title text-center">Create Account</h1>;
+function Login() {
+    const myHeader = <h1 className="card-title text-center">Login</h1>;
 
     const mySocial = (
         <div>
             <a href="/" className="btn btn-block btn-google">
-                <i className="fa fa-google-plus" />   Join with Google
+                <i className="fa fa-google-plus" />   Login with Google
             </a>
             <a href="/" className="btn btn-block btn-facebook">
-                <i className="fa fa-facebook-f" />   Join with Facebook
+                <i className="fa fa-facebook-f" />   Login with Facebook
             </a>
             <div className="divider-text">
                 <span className="bg-light">OR</span>
@@ -40,4 +40,4 @@ function Signup() {
     );
 }
 
-export default Signup;
+export default Login;

@@ -48,3 +48,11 @@
     content:"*";
     color:red;
 }
+
+/* Resize Login/Signup for Media larger than mobile*/
+@media (min-width: 768px) {
+    .resize-page {
+        padding:4rem;
+        margin:0;
+      }  
+}
