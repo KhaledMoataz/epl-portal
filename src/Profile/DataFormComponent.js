@@ -17,6 +17,8 @@ import Item from '../common/Item';
 
 const DataFormComponent = (props) => (
     <form className="form-data" onSubmit={props.submitHandler}>
+        <br />
+
         <Item
             name="first_name"
             onChange={props.changeHandler}
