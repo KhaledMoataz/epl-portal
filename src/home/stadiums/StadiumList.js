@@ -6,7 +6,7 @@ function StadiumList(props) {
         <StadiumItem key={stadium.id} stadium={stadium} />
     ));
     return (
-        <div className="team-list">
+        <div className="stadium-list">
             <div className="list-heading">Stadiums</div>
             {StadiumsList}
         </div>

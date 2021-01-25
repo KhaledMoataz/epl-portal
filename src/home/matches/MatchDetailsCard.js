@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import DateTimeWrapper from './DateTimeWrapper';
 
 function MatchDetailsCard(props) {
@@ -11,9 +12,14 @@ function MatchDetailsCard(props) {
     const [state, setState] = useState(states.manager);
     const dateTime = new DateTimeWrapper(props.match.datetime);
     const [editState, setEditState] = useState(null);
+    const history = useHistory();
 
     // Done editing or Show Details or Buy Tickets
-    const handlePrimaryClick = () => {};
+    const handlePrimaryClick = () => {
+        if (state !== states.guest && state !== states.managerEditable) {
+            history.push('/reservation');
+        }
+    };
 
     // Edit or Cancel
     const handleSecondaryClick = () => {
