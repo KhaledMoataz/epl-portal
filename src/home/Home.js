@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import MatchDetailsList from './matches/MatchDetailsList';
 import TeamList from './teams/TeamList';
 import StadiumList from './stadiums/StadiumList';
+import './styles.css';
 
 // fake data
 import matchesFile from './fake-data/matches-details';
