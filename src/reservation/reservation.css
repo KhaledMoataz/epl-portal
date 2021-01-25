@@ -1,3 +1,28 @@
 .btn-xxl {
     width: 100px;
 }
+
+.reservation-bg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reservation-window {
+    background-color: #d6d6d6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+.reservation-row {
+    display: flex;
+    justify-content: center;
+}
+
+.reservation-button {
+    margin: 5px;
+    width: 80px;
+    height: 80px;
+}
