@@ -1,0 +1,101 @@
+.home {
+    margin-top: 10px;
+}
+
+.card {
+    margin-bottom: 10px;
+}
+
+.match-details {
+    background-color: #f8f8f8;
+}
+
+.top-info {
+    display: flex;
+    padding: 5px;
+    background-color: #ddddff;
+}
+
+.top-info > .time {
+    margin-left: auto;
+}
+
+.top-info > .stadium {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.teams {
+    display: flex;
+    justify-content: space-around;
+}
+
+.team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team > .team-name {
+    margin-top: 3px;
+    font-weight: bold;
+}
+
+.team > .team-logo {
+    height: 55px;
+}
+
+.bottom-info {
+    display: flex;
+    padding: 10px;
+    align-items: flex-end;
+}
+
+.referee-team {
+}
+
+th {
+    padding-right: 10px;
+}
+
+.edit-match-details-btn {
+    margin-right: 5px;
+}
+
+.team-list {
+    border: 1px solid;
+}
+
+.team-item {
+    display: flex;
+    align-items: center;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.team-item > .team-logo {
+    height: 35px;
+}
+
+.list-divider {
+    margin: 5px;
+}
+
+.team-item > .team-name {
+    padding-left: 10px;
+}
+
+.list-heading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ddddff;
+    font-weight: bold;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.stadium-item {
+    padding: 5px;
+}
