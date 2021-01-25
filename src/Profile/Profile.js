@@ -12,9 +12,9 @@ const Profile = () => {
     const profileHeader = <h1 className="card-title text-center">Edit Profile</h1>;
 
     return (
-        <div className="container-fluid bg-info">
+        <div className="container-fluid resize-container bg-info">
             <div className="row resize-page justify-content-md-center">
-                <div className="card col-md-8">
+                <div className="card resize-card col-md-8">
                     <div className="card-body bg-light">
                         {profileHeader}
                         <DataForm />
