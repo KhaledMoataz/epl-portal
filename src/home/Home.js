@@ -21,17 +21,17 @@ function Home() {
     }, []);
 
     return (
-        <div className="container home">
+        <div className="container-fluid home">
             <div className="row">
                 <div className="left-list col-3 d-lg-block d-none">
                     <StadiumList stadiums={stadiums} />
                 </div>
 
-                <div className="middle-list col-lg-6 col-12">
+                <div className="middle-list col-lg-6 col-md-9 col-12">
                     <MatchDetailsList matches={matches} stadiums={stadiums} teams={teams} />
                 </div>
 
-                <div className="right-list col-3 d-lg-block d-none">
+                <div className="right-list col-3 d-md-block d-none">
                     <TeamList teams={teams} />
                 </div>
             </div>
