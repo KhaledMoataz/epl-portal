@@ -1,6 +1,6 @@
 const matchDetails = [
     {
-        key: 0,
+        id: 0,
         datetime: '2021-01-26T15:24',
         stadium: 'Cairo Stadium',
         homeTeam: 'Ahly',
@@ -13,7 +13,7 @@ const matchDetails = [
         secondLineman: 'Khaled Moataz'
     },
     {
-        key: 1,
+        id: 1,
         datetime: '2021-01-26T15:24',
         stadium: 'Cairo Stadium',
         homeTeam: 'Ahly',
@@ -26,7 +26,7 @@ const matchDetails = [
         secondLineman: 'Khaled Moataz'
     },
     {
-        key: 2,
+        id: 2,
         datetime: '2021-01-26T15:24',
         stadium: 'Cairo Stadium',
         homeTeam: 'Ahly',
