@@ -1,24 +1,25 @@
 import React from 'react';
-import FormComponent from './FormComponent';
+import PassFormComponent from './PassFormComponent';
 
 /*  This file contains the form logic
-    The form have 2 states to control the inputs and send thim to the server
-        and 1 state to store the response from the the server
+    The form have 10 states to control the inputs and send thim to the server
+        and 2 states to store the response from the the server
     We have 2 functions: 
         1- changeHandler:   to change the state when the input change
         2- submitHandler:   to submit the form inputs to the server
 */
 
-class Form extends React.Component {
+class PassForm extends React.Component {
     constructor() {
         super();
 
         this.state = {
-            username: '',
-            password: '',
+            old_password: '',
+            new_password: '',
+            confirm_new_password: '',
 
-            user_message: null,
-            pass_message: null
+            old_pass_message: null,
+            new_pass_message: null
         };
 
         this.submitHandler = this.submitHandler.bind(this);
@@ -32,8 +33,8 @@ class Form extends React.Component {
             When the message state not null for specific item, the form item for this message
             presents it's content as error message below the item
         */
-        if (name === 'username') this.setState({ user_message: null });
-        else if (name === 'password') this.setState({ pass_message: null });
+        if (name === 'old_password') this.setState({ old_pass_message: null });
+        else if (name === 'new_password') this.setState({ new_pass_message: null });
 
         this.setState({ [name]: value });
     }
@@ -42,10 +43,10 @@ class Form extends React.Component {
         event.preventDefault();
 
         /* to don't send request again if the user didn't update the input after the error */
-        if (this.state.user_message || this.state.pass_message) return;
+        if (this.state.old_pass_message || this.state.new_pass_message) return;
         // console.log(JSON.stringify(this.state));
 
-        fetch('https://6eceeb74cf86.ngrok.io/login/', {
+        fetch('https://6eceeb74cf86.ngrok.io/profile/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -55,11 +56,21 @@ class Form extends React.Component {
         })
             .then((response) => response.json())
             .then((data) => {
-                /* Incorrect  */
-                if (data.msg === 'incorrect username') {
-                    this.setState({ user_message: data.msg });
-                } else if (data.msg === 'incorrect password') {
-                    this.setState({ pass_message: data.msg });
+                /*  Store the server response in variables */
+                let oldPassMessage = data.old_password;
+                let newPassMessage = data.new_password;
+
+                if (data.msg === 'error') {
+                    /*  The Message that empty it means it's not thre reason for the erron so
+                        we make it equals null to not be presented as error message to the user 
+                    */
+                    if (oldPassMessage.length === 0) oldPassMessage = null;
+                    if (newPassMessage.length === 0) newPassMessage = null;
+
+                    this.setState({
+                        old_pass_message: oldPassMessage,
+                        new_pass_message: newPassMessage
+                    });
                 } else {
                     // Redirection should done here
                 }
@@ -69,14 +80,14 @@ class Form extends React.Component {
     render() {
         // console.log(JSON.stringify(this.state))
         return (
-            <FormComponent
+            <PassFormComponent
                 changeHandler={this.changeHandler}
                 submitHandler={this.submitHandler}
-                user_message={this.state.user_message}
-                pass_message={this.state.pass_message}
+                old_pass_message={this.state.old_pass_message}
+                new_pass_message={this.state.new_pass_message}
             />
         );
     }
 }
 
-export default Form;
+export default PassForm;

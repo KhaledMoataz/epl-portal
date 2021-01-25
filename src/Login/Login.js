@@ -1,6 +1,6 @@
 import React from 'react';
 import Form from './FormContainer';
-import '../Signup/styles.css';
+import '../common/styles.css';
 
 /*  Login is a Card, and its body consists of three components
         1- myHeader(Card title) --> It presents "Login"
