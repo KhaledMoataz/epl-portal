@@ -11,7 +11,7 @@ import React from 'react';
         4- others       --> all elements that are required and don't have specific values
 */
 
-function Item(props) {
+const Item = (props) => {
     let editedElement;
     let isRequired = 'required';
 
@@ -73,6 +73,6 @@ function Item(props) {
         </div>
     );
     return oneItem;
-}
+};
 
 export default Item;

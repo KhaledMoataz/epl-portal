@@ -3,7 +3,7 @@ import Item from '../common/Item';
 
 /*  The Form Component consists of 10 Items and 1 Button
     The 10 Items are:
-        username, password, first_name, last_name, birthdate,
+        new_password, confirm_password, first_name, last_name, birthdate,
         gender, city, address, email, role
     each item has its own properties:
         1- name:            unique name for this item
@@ -15,27 +15,8 @@ import Item from '../common/Item';
         7- validation       when 'is-invalid' it shows error message below this item
 */
 
-const FormComponent = (props) => (
+const DataFormComponent = (props) => (
     <form className="form-data" onSubmit={props.submitHandler}>
-        <Item
-            name="username"
-            onChange={props.changeHandler}
-            item="fa fa-user-o fa-fw"
-            type="text"
-            placeholder="Username"
-            invalid_message={props.user_message}
-            validation={props.user_message ? 'is-invalid' : ''}
-        />
-        <Item
-            name="password"
-            onChange={props.changeHandler}
-            item="fa fa-lock fa-fw"
-            type="password"
-            placeholder="Password"
-            invalid_message={props.pass_message}
-            validation={props.pass_message ? 'is-invalid' : ''}
-        />
-
         <Item
             name="first_name"
             onChange={props.changeHandler}
@@ -67,6 +48,7 @@ const FormComponent = (props) => (
             type="gender"
             placeholder="Gender"
         />
+
         <Item
             name="city"
             onChange={props.changeHandler}
@@ -89,8 +71,6 @@ const FormComponent = (props) => (
             item="fa fa-envelope fa-fw"
             type="email"
             placeholder="email"
-            invalid_message={props.email_message}
-            validation={props.email_message ? 'is-invalid' : ''}
         />
 
         <Item
@@ -99,14 +79,36 @@ const FormComponent = (props) => (
             item="fa fa-chevron-circle-down fa-fw"
             type="role"
             placeholder="role"
+            invalid_message={props.role_message}
+            validation={props.role_message ? 'is-invalid' : ''}
+        />
+
+        <Item
+            name="old_password"
+            onChange={props.changeHandler}
+            item="fa fa-lock fa-fw"
+            type="password"
+            placeholder="Password"
+            invalid_message={props.pass_message}
+            validation={props.pass_message ? 'is-invalid' : ''}
+        />
+
+        <Item
+            name="confirm_old_password"
+            onChange={props.changeHandler}
+            item="fa fa-lock fa-fw"
+            type="password"
+            placeholder="Confirm password"
+            invalid_message={props.pass_message}
+            validation={props.pass_message ? 'is-invalid' : ''}
         />
 
         <div className="form-group input-group text-center">
             <button className="btn btn-primary form-control" type="submit" value="Submit">
-                Register
+                Edit Profile
             </button>
         </div>
     </form>
 );
 
-export default FormComponent;
+export default DataFormComponent;
