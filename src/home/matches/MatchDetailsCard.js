@@ -60,7 +60,7 @@ function MatchDetailsCard(props) {
 
     if (state === states.managerEditable) {
         return (
-            <div className="card match-details">
+            <div className="card match-details shadow-sm rounded">
                 <div className="top-info">
                     <input
                         type="date"
@@ -185,7 +185,7 @@ function MatchDetailsCard(props) {
     }
 
     return (
-        <div className="card match-details">
+        <div className="card match-details shadow-sm rounded">
             <div className="top-info">
                 <div className="date">{dateTime.getDateString()}</div>
                 <div className="stadium">{props.match.stadium}</div>
