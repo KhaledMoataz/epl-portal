@@ -8,25 +8,23 @@ import '../common/styles.css';
         2- Form                 --> It contains the user informations
 */
 
-class Profile extends React.Component {
-    componentDidMount() {}
+const Profile = () => {
+    const profileHeader = <h1 className="card-title text-center">Edit Profile</h1>;
 
-    render() {
-        return (
-            <div className="container-fluid bg-info">
-                <div className="row resize-page justify-content-md-center">
-                    <div className="card col-md-8">
-                        <div className="card-body bg-light">
-                            <DataForm />
-                            <br />
-                            <br />
-                            <PassForm />
-                        </div>
+    return (
+        <div className="container-fluid bg-info">
+            <div className="row resize-page justify-content-md-center">
+                <div className="card col-md-8">
+                    <div className="card-body bg-light">
+                        {profileHeader}
+                        <DataForm />
+                        <br />
+                        <PassForm />
                     </div>
                 </div>
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
 
 export default Profile;

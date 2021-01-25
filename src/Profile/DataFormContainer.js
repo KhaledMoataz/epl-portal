@@ -3,7 +3,7 @@ import FormComponent from './DataFormComponent';
 
 /*  This file contains the form logic
     The form have 10 states to control the inputs and send thim to the server
-        and 2 states to store the response from the the server
+        and 1 states to store the response from the the server
     We have 2 functions: 
         1- changeHandler:   to change the state when the input change
         2- submitHandler:   to submit the form inputs to the server
@@ -25,8 +25,7 @@ class DataForm extends React.Component {
             old_password: '',
             confirm_old_password: '',
 
-            pass_message: null,
-            role_message: null
+            pass_message: null
         };
 
         this.submitHandler = this.submitHandler.bind(this);
@@ -40,8 +39,8 @@ class DataForm extends React.Component {
             When the message state not null for specific item, the form item for this message
             presents it's content as error message below the item
         */
-        if (name === 'password') this.setState({ pass_message: null });
-        else if (name === 'role') this.setState({ role_message: null });
+        if (name === 'old_password' || name === 'confirm_old_password')
+            this.setState({ pass_message: null });
 
         this.setState({ [name]: value });
     }
@@ -50,7 +49,7 @@ class DataForm extends React.Component {
         event.preventDefault();
 
         /* to don't send request again if the user didn't update the input after the error */
-        if (this.state.pass_message || this.state.role_message) return;
+        if (this.state.pass_message) return;
         // console.log(JSON.stringify(this.state));
 
         fetch('https://6eceeb74cf86.ngrok.io/profile/', {
@@ -63,21 +62,8 @@ class DataForm extends React.Component {
         })
             .then((response) => response.json())
             .then((data) => {
-                /*  Store the server response in variables */
-                let newPassMessage = data.password;
-                let newEmailMessage = data.email;
-
-                if (data.msg === 'error') {
-                    /*  The Message that empty it means it's not thre reason for the erron so
-                        we make it equals null to not be presented as error message to the user 
-                    */
-                    if (newPassMessage.length === 0) newPassMessage = null;
-                    if (newEmailMessage.length === 0) newEmailMessage = null;
-
-                    this.setState({
-                        pass_message: newPassMessage,
-                        role_message: newEmailMessage
-                    });
+                if (data.msg !== 'success') {
+                    this.setState({ pass_message: data.msg });
                 } else {
                     // Redirection should done here
                 }
@@ -91,7 +77,6 @@ class DataForm extends React.Component {
                 changeHandler={this.changeHandler}
                 submitHandler={this.submitHandler}
                 pass_message={this.state.pass_message}
-                role_message={this.state.role_message}
             />
         );
     }

@@ -34,7 +34,8 @@ class PassForm extends React.Component {
             presents it's content as error message below the item
         */
         if (name === 'old_password') this.setState({ old_pass_message: null });
-        else if (name === 'new_password') this.setState({ new_pass_message: null });
+        else if (name === 'new_password' || name === 'confirm_new_password')
+            this.setState({ new_pass_message: null });
 
         this.setState({ [name]: value });
     }
