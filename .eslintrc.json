@@ -18,6 +18,7 @@
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "react/state-in-constructor": "off",
         "react/prop-types": "off",
-        "react/destructuring-assignment": "off"
+        "react/destructuring-assignment": "off",
+        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
     }
 }
