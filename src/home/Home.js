@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Dialog } from '@material-ui/core';
 import MatchDetailsList from './matches/MatchDetailsList';
 import TeamList from './teams/TeamList';
 import StadiumList from './stadiums/StadiumList';
@@ -6,18 +7,26 @@ import './styles.css';
 import Loading from '../common/Loading';
 
 // fake data
-// import matchesFile from './fake-data/matches-details';
-// import stadiumsFile from './fake-data/stadiums';
-// import teamsFile from './fake-data/teams';
+import matchesFile from './fake-data/matches-details';
+import stadiumsFile from './fake-data/stadiums';
+import teamsFile from './fake-data/teams';
+import MatchDetailsCard from './matches/MatchDetailsCard';
+import AddStadiumDialog from './AddStadiumDialog';
 
 function Home() {
+    const useFakeData = true;
     const [matches, setMatches] = useState(null);
     const [stadiums, setStadiums] = useState(null);
     const [teams, setTeams] = useState(null);
+    const [isAddingMatchShown, showAddingMatch] = useState(false);
+    const [isAddingStadiumShown, showAddingStadium] = useState(false);
     const baseUrl = 'https://f31cbb2ba792.ngrok.io';
 
-    useEffect(() => {
-        // Fetch match details
+    const fetchMatches = () => {
+        if (useFakeData) {
+            setMatches(matchesFile);
+            return;
+        }
         fetch(`${baseUrl}/matches/all`)
             .then((response) => response.json())
             .then((response) =>
@@ -36,7 +45,13 @@ function Home() {
                 }))
             )
             .then((data) => setMatches(data));
-        // Fetch stadiums list
+    };
+
+    const fetchStadiums = () => {
+        if (useFakeData) {
+            setStadiums(stadiumsFile);
+            return;
+        }
         fetch(`${baseUrl}/stadia/all`)
             .then((response) => response.json())
             .then((response) =>
@@ -48,7 +63,13 @@ function Home() {
                 }))
             )
             .then((data) => setStadiums(data));
-        // Fetch teams list
+    };
+
+    const fetchTeams = () => {
+        if (useFakeData) {
+            setTeams(teamsFile);
+            return;
+        }
         fetch(`${baseUrl}/teams/all`)
             .then((response) => response.json())
             .then((response) =>
@@ -60,24 +81,93 @@ function Home() {
                 }))
             )
             .then((data) => setTeams(data));
+    };
+
+    useEffect(() => {
+        fetchMatches();
+        fetchStadiums();
+        fetchTeams();
     }, []);
+
+    const addNewMatch = (editState) => {
+        showAddingMatch(false);
+        setMatches([{ ...editState, datetime: `${editState.date}T${editState.time}` }, ...matches]);
+    };
+
+    const addStadium = (stadium) => {
+        // showAddingStadium(false);
+        setStadiums([...stadiums, stadium]);
+    };
 
     return (
         <div className="container-fluid home">
             <div className="row">
                 <div className="text-center left-list col-3 d-lg-block d-none">
+                    <div className="home-buttons">
+                        {stadiums != null ? (
+                            <button
+                                onClick={() => showAddingStadium(true)}
+                                type="button"
+                                className="add-stadium-button btn btn-primary">
+                                Add Stadium
+                            </button>
+                        ) : null}
+                        {matches !== null &&
+                        stadiums != null &&
+                        teams != null &&
+                        stadiums.length >= 1 &&
+                        teams.length >= 2 ? (
+                            <button
+                                type="button"
+                                className="add-match-button btn btn-primary"
+                                onClick={() => showAddingMatch(true)}>
+                                Add Match
+                            </button>
+                        ) : null}
+                    </div>
                     <StadiumList stadiums={stadiums} />
                 </div>
 
-                <div className="text-center middle-list col-lg-6 col-md-9 col-12">
+                <div className="middle-list col-lg-6 col-md-9 col-12">
                     <MatchDetailsList matches={matches} stadiums={stadiums} teams={teams} />
                     <Loading isShown={matches === null} />
                 </div>
 
-                <div className="text-center right-list col-3 d-md-block d-none">
+                <div className="right-list col-3 d-md-block d-none">
                     <TeamList teams={teams} />
                 </div>
             </div>
+            <Dialog
+                open={isAddingMatchShown}
+                onClose={() => showAddingMatch(false)}
+                aria-labelledby="form-dialog-title"
+                fullWidth>
+                {isAddingMatchShown ? (
+                    <MatchDetailsCard
+                        match={{
+                            datetime: new Date().toISOString(),
+                            stadium: stadiums[0].name,
+                            homeTeam: teams[0].name,
+                            homeTeamLogo: teams[0].logo,
+                            awayTeam: teams[1].name,
+                            awayTeamLogo: teams[1].logo,
+                            referee: '',
+                            firstLinesman: '',
+                            secondLinesman: ''
+                        }}
+                        stadiums={stadiums}
+                        teams={teams}
+                        toBeAdded
+                        dialogClose={() => showAddingMatch(false)}
+                        dialogDone={addNewMatch}
+                    />
+                ) : null}
+            </Dialog>
+            <AddStadiumDialog
+                isShown={isAddingStadiumShown}
+                handleClose={() => showAddingStadium(false)}
+                addStadium={addStadium}
+            />
         </div>
     );
 }

@@ -2,35 +2,44 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import DateTimeWrapper from './DateTimeWrapper';
 
-function MatchDetailsCard(props) {
+function MatchDetailsCard({ match, teams, stadiums, toBeAdded, dialogClose, dialogDone }) {
     const states = Object.freeze({
         guest: 0,
         user: 1,
         manager: 2,
         managerEditable: 3
     });
+    const [matchDetails, setMatchDetails] = useState(match);
     const [state, setState] = useState(states.manager);
-    const dateTime = new DateTimeWrapper(props.match.datetime);
-    const [editState, setEditState] = useState(null);
+    const dateTime = new DateTimeWrapper(match.datetime);
+    const [editState, setEditState] = useState({
+        ...match,
+        date: dateTime.getDateSelectFormat(),
+        time: dateTime.getTimeInputFormat()
+    });
     const history = useHistory();
 
-    // Done editing or Show Details or Buy Tickets
+    // Done editing or Show Details or Buy Tickets / toBeAdded? dialog done
     const handlePrimaryClick = () => {
-        if (state !== states.guest && state !== states.managerEditable) {
+        if (toBeAdded) {
+            dialogDone(editState);
+        } else if (state !== states.guest && state !== states.managerEditable) {
             history.push('/reservation');
+        } else if (state === states.managerEditable) {
+            setMatchDetails({ ...editState, datetime: `${editState.date}T${editState.time}` });
+            setState(states.manager);
         }
     };
 
-    // Edit or Cancel
+    // Edit or Cancel / toBeAdded? dialog close
     const handleSecondaryClick = () => {
+        if (toBeAdded) {
+            dialogClose();
+            return;
+        }
         if (state === states.managerEditable) {
             setState(states.manager);
         } else if (state === states.manager) {
-            setEditState({
-                ...props.match,
-                date: dateTime.getDateSelectFormat(),
-                time: dateTime.getTimeInputFormat()
-            });
             setState(states.managerEditable);
         }
     };
@@ -43,7 +52,7 @@ function MatchDetailsCard(props) {
         });
     };
 
-    const getTeamLogo = (teamName) => props.teams.find((team) => team.name === teamName).logo;
+    const getTeamLogo = (teamName) => teams.find((team) => team.name === teamName).logo;
 
     const getOtherTeamAttr = (teamAttr) => (teamAttr === 'homeTeam' ? 'awayTeam' : 'homeTeam');
 
@@ -64,9 +73,9 @@ function MatchDetailsCard(props) {
         setEditState(newState);
     };
 
-    if (state === states.managerEditable) {
+    if (state === states.managerEditable || toBeAdded) {
         return (
-            <div className="card match-details shadow-sm rounded">
+            <div className={`card match-details shadow-sm rounded ${toBeAdded ? 'm-0' : ''}`}>
                 <div className="top-info">
                     <input
                         type="date"
@@ -80,7 +89,7 @@ function MatchDetailsCard(props) {
                         name="stadium"
                         value={editState.stadium}
                         onChange={handleFormChange}>
-                        {props.stadiums.map((stadium) => (
+                        {stadiums.map((stadium) => (
                             <option key={stadium.id} value={stadium.name}>
                                 {stadium.name}
                             </option>
@@ -107,7 +116,7 @@ function MatchDetailsCard(props) {
                                 name="homeTeam"
                                 value={editState.homeTeam}
                                 onChange={handleTeamSelection}>
-                                {props.teams.map((team) => (
+                                {teams.map((team) => (
                                     <option key={team.id} value={team.name}>
                                         {team.name}
                                     </option>
@@ -125,7 +134,7 @@ function MatchDetailsCard(props) {
                                 name="awayTeam"
                                 value={editState.awayTeam}
                                 onChange={handleTeamSelection}>
-                                {props.teams.map((team) => (
+                                {teams.map((team) => (
                                     <option key={team.id} value={team.name}>
                                         {team.name}
                                     </option>
@@ -194,7 +203,7 @@ function MatchDetailsCard(props) {
         <div className="card match-details shadow-sm rounded">
             <div className="top-info">
                 <div className="date">{dateTime.getDateString()}</div>
-                <div className="stadium">{props.match.stadium}</div>
+                <div className="stadium">{matchDetails.stadium}</div>
                 <div className="time">{dateTime.getTimeString()}</div>
             </div>
             <div className="card-body">
@@ -202,18 +211,18 @@ function MatchDetailsCard(props) {
                     <div className="team home-team">
                         <img
                             className="team-logo"
-                            src={props.match.homeTeamLogo}
+                            src={matchDetails.homeTeamLogo}
                             alt="home-team-logo"
                         />
-                        <div className="team-name">{props.match.homeTeam}</div>
+                        <div className="team-name">{matchDetails.homeTeam}</div>
                     </div>
                     <div className="team away-team">
                         <img
                             className="team-logo"
-                            src={props.match.awayTeamLogo}
+                            src={matchDetails.awayTeamLogo}
                             alt="away-team-logo"
                         />
-                        <div className="team-name">{props.match.awayTeam}</div>
+                        <div className="team-name">{matchDetails.awayTeam}</div>
                     </div>
                 </div>
             </div>
@@ -222,15 +231,15 @@ function MatchDetailsCard(props) {
                     <tbody>
                         <tr>
                             <th>Referee</th>
-                            <td>{props.match.referee}</td>
+                            <td>{matchDetails.referee}</td>
                         </tr>
                         <tr>
                             <th>Linesman 1</th>
-                            <td>{props.match.firstLinesman}</td>
+                            <td>{matchDetails.firstLinesman}</td>
                         </tr>
                         <tr>
                             <th>Linesman 2</th>
-                            <td>{props.match.secondLinesman}</td>
+                            <td>{matchDetails.secondLinesman}</td>
                         </tr>
                     </tbody>
                 </table>
