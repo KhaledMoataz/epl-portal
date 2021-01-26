@@ -14,7 +14,7 @@ import MatchDetailsCard from './matches/MatchDetailsCard';
 import AddStadiumDialog from './AddStadiumDialog';
 
 function Home() {
-    const useFakeData = true;
+    const useFakeData = false;
     const [matches, setMatches] = useState(null);
     const [stadiums, setStadiums] = useState(null);
     const [teams, setTeams] = useState(null);
@@ -95,7 +95,7 @@ function Home() {
     };
 
     const addStadium = (stadium) => {
-        // showAddingStadium(false);
+        showAddingStadium(false);
         setStadiums([...stadiums, stadium]);
     };
 

@@ -11,7 +11,7 @@ function MatchDetailsCard({ match, teams, stadiums, toBeAdded, dialogClose, dial
     });
     const [matchDetails, setMatchDetails] = useState(match);
     const [state, setState] = useState(states.manager);
-    const dateTime = new DateTimeWrapper(match.datetime);
+    const dateTime = new DateTimeWrapper(matchDetails.datetime);
     const [editState, setEditState] = useState({
         ...match,
         date: dateTime.getDateSelectFormat(),
