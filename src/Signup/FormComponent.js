@@ -1,5 +1,5 @@
 import React from 'react';
-import Item from '../common/Item';
+import Item from './Item';
 
 /*  The Form Component consists of 10 Items and 1 Button
     The 10 Items are:

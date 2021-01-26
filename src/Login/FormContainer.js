@@ -1,6 +1,8 @@
 import React from 'react';
 import FormComponent from './FormComponent';
 
+const endpoint = 'https://f31cbb2ba792.ngrok.io/login/';
+
 /*  This file contains the form logic
     The form have 2 states to control the inputs and send thim to the server
         and 1 state to store the response from the the server
@@ -45,7 +47,7 @@ class Form extends React.Component {
         if (this.state.user_message || this.state.pass_message) return;
         // console.log(JSON.stringify(this.state));
 
-        fetch('https://6eceeb74cf86.ngrok.io/login/', {
+        fetch(endpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -53,8 +55,18 @@ class Form extends React.Component {
             },
             body: JSON.stringify(this.state)
         })
-            .then((response) => response.json())
+            .then((response) => {
+                console.log(response.headers.get('set-cookie'));
+                console.log(response.headers.get('Set-Cookie.jwt'));
+                console.log(response.headers.get('ETag'));
+                console.log(response.headers.get('Access-Control-Allow-Origin'));
+                console.log(response.headers.get('X-Powered-By'));
+                console.log(response.headers.get('Access-Control-Allow-Credentials'));
+                console.log(document.cookie); // nope
+                return response.json();
+            })
             .then((data) => {
+                console.log(data);
                 /* Incorrect  */
                 if (data.msg === 'incorrect username') {
                     this.setState({ user_message: data.msg });
@@ -67,6 +79,7 @@ class Form extends React.Component {
     }
 
     render() {
+        console.log(document.cookie);
         // console.log(JSON.stringify(this.state))
         return (
             <FormComponent

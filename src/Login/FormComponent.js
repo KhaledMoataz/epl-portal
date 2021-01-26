@@ -15,7 +15,7 @@ const FormComponent = (props) => (
         <div className="form-group required text-uppercase font-weight-bold ">
             Username
             <input
-                name={props.name}
+                name="username"
                 onChange={props.changeHandler}
                 type="text"
                 placeholder="Enter username"
