@@ -1,10 +1,10 @@
 import React from 'react';
-import Item from '../common/Item';
+import Item from './Item';
 
-/*  The Form Component consists of 10 Items and 1 Button
-    The 10 Items are:
-        new_password, confirm_password, first_name, last_name, birthdate,
-        gender, city, address, email, role
+/*  The Form Component consists of 9 Items and 1 Button
+    The 9 Items are:
+        first_name, last_name, birthdate, gender
+        city, address, email, role, password
     each item has its own properties:
         1- name:            unique name for this item
         2- onChange:        function to control the item when its value changes
@@ -17,6 +17,14 @@ import Item from '../common/Item';
 
 const DataFormComponent = (props) => (
     <form className="form-data" onSubmit={props.submitHandler}>
+        <Item
+            name="username"
+            onChange={props.changeHandler}
+            item="fa fa-user-o fa-fw"
+            type="username"
+            placeholder="username"
+        />
+
         <Item
             name="first_name"
             onChange={props.changeHandler}
@@ -84,21 +92,11 @@ const DataFormComponent = (props) => (
         />
 
         <Item
-            name="old_password"
+            name="password"
             onChange={props.changeHandler}
             item="fa fa-lock fa-fw"
             type="password"
             placeholder="Password"
-            invalid_message={props.pass_message}
-            validation={props.pass_message ? 'is-invalid' : ''}
-        />
-
-        <Item
-            name="confirm_old_password"
-            onChange={props.changeHandler}
-            item="fa fa-lock fa-fw"
-            type="password"
-            placeholder="Confirm password"
             invalid_message={props.pass_message}
             validation={props.pass_message ? 'is-invalid' : ''}
         />

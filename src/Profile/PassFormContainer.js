@@ -1,6 +1,8 @@
 import React from 'react';
 import PassFormComponent from './PassFormComponent';
 
+const endpoint = 'https://f31cbb2ba792.ngrok.io/profile/';
+
 /*  This file contains the form logic
     The form have 10 states to control the inputs and send thim to the server
         and 2 states to store the response from the the server
@@ -47,7 +49,7 @@ class PassForm extends React.Component {
         if (this.state.old_pass_message || this.state.new_pass_message) return;
         // console.log(JSON.stringify(this.state));
 
-        fetch('https://6eceeb74cf86.ngrok.io/profile/', {
+        fetch(endpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

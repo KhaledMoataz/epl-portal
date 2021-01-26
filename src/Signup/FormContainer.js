@@ -1,6 +1,8 @@
 import React from 'react';
 import FormComponent from './FormComponent';
 
+const endpoint = 'https://f31cbb2ba792.ngrok.io/signup/';
+
 /*  This file contains the form logic
     The form have 10 states to control the inputs and send thin to the server
         and 4 states to store the response from the the server
@@ -61,7 +63,7 @@ class Form extends React.Component {
             email_message: null
         }); */
 
-        fetch('https://6eceeb74cf86.ngrok.io/signup/', {
+        fetch(endpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -96,7 +98,7 @@ class Form extends React.Component {
     }
 
     render() {
-        // console.log(JSON.stringify(this.state))
+        console.log(JSON.stringify(this.state));
         return (
             <FormComponent
                 changeHandler={this.changeHandler}

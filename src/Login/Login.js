@@ -26,9 +26,9 @@ function Login() {
     );
 
     return (
-        <div className="container-fluid resize-container bg-info">
+        <div className="container-fluid resize-container">
             <div className="row resize-page justify-content-md-center">
-                <div className="card resize-card col-md-6">
+                <div className="card shadow-lg resize-card col-md-6">
                     <div className="card-body bg-light">
                         {myHeader}
                         {mySocial}

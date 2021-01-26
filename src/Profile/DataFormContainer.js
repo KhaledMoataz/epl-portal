@@ -1,8 +1,10 @@
 import React from 'react';
 import FormComponent from './DataFormComponent';
 
+const endpoint = 'https://f31cbb2ba792.ngrok.io/profile/';
+
 /*  This file contains the form logic
-    The form have 10 states to control the inputs and send thim to the server
+    The form have 9 states to control the inputs and send thim to the server
         and 1 states to store the response from the the server
     We have 2 functions: 
         1- changeHandler:   to change the state when the input change
@@ -22,8 +24,7 @@ class DataForm extends React.Component {
             address: '',
             email: '',
             role: 'Fan',
-            old_password: '',
-            confirm_old_password: '',
+            password: '',
 
             pass_message: null
         };
@@ -39,8 +40,7 @@ class DataForm extends React.Component {
             When the message state not null for specific item, the form item for this message
             presents it's content as error message below the item
         */
-        if (name === 'old_password' || name === 'confirm_old_password')
-            this.setState({ pass_message: null });
+        if (name === 'password') this.setState({ pass_message: null });
 
         this.setState({ [name]: value });
     }
@@ -52,7 +52,7 @@ class DataForm extends React.Component {
         if (this.state.pass_message) return;
         // console.log(JSON.stringify(this.state));
 
-        fetch('https://6eceeb74cf86.ngrok.io/profile/', {
+        fetch(endpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
