@@ -150,11 +150,11 @@ function MatchDetailsCard(props) {
                                 </td>
                             </tr>
                             <tr>
-                                <th>Lineman 1</th>
+                                <th>Linesman 1</th>
                                 <td>
                                     <input
-                                        name="firstLineman"
-                                        value={editState.firstLineman}
+                                        name="firstLinesman"
+                                        value={editState.firstLinesman}
                                         onChange={handleFormChange}
                                         className="bg-transparent"
                                         type="text"
@@ -162,11 +162,11 @@ function MatchDetailsCard(props) {
                                 </td>
                             </tr>
                             <tr>
-                                <th>Lineman 2</th>
+                                <th>Linesman 2</th>
                                 <td>
                                     <input
-                                        name="secondLineman"
-                                        value={editState.secondLineman}
+                                        name="secondLinesman"
+                                        value={editState.secondLinesman}
                                         onChange={handleFormChange}
                                         className="bg-transparent"
                                         type="text"
@@ -225,12 +225,12 @@ function MatchDetailsCard(props) {
                             <td>{props.match.referee}</td>
                         </tr>
                         <tr>
-                            <th>Lineman 1</th>
-                            <td>{props.match.firstLineman}</td>
+                            <th>Linesman 1</th>
+                            <td>{props.match.firstLinesman}</td>
                         </tr>
                         <tr>
-                            <th>Lineman 2</th>
-                            <td>{props.match.secondLineman}</td>
+                            <th>Linesman 2</th>
+                            <td>{props.match.secondLinesman}</td>
                         </tr>
                     </tbody>
                 </table>

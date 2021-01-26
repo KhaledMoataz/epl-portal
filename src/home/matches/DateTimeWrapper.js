@@ -1,10 +1,10 @@
 class DateTimeWrapper {
     constructor(dateTimeString) {
-        this.date = new Date(dateTimeString);
-        [this.dateSelectFormat, this.timeInputFormat] = dateTimeString.split('T');
-
+        const dateTimeStr = dateTimeString.substr(0, 16);
+        this.date = new Date(dateTimeStr);
+        [this.dateSelectFormat, this.timeInputFormat] = dateTimeStr.split('T');
         const hours = this.date.getHours();
-        this.timeString = `${hours % 12}:${DateTimeWrapper.pad(this.date.getMinutes())} ${
+        this.timeString = `${hours % 12 || 12}:${DateTimeWrapper.pad(this.date.getMinutes())} ${
             hours < 12 ? 'AM' : 'PM'
         }`;
         this.dateString = `${this.date.getDate()}/${
@@ -29,7 +29,7 @@ class DateTimeWrapper {
     }
 
     static pad(number) {
-        const s = `0 ${number}`;
+        const s = `0${number}`;
         return s.substr(s.length - 2);
     }
 }
