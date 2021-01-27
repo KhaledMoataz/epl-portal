@@ -1,4 +1,6 @@
 import React from 'react';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 import FormComponent from './FormComponent';
@@ -62,22 +64,23 @@ class Form extends React.Component {
             body: JSON.stringify(this.state)
         })
             .then((response) => {
-                // setting the token as cookie called jwt
                 const { cookies } = this.props;
+                // setting the token as cookie called jwt
                 cookies.set('jwt', response.headers.get('jwt'), { path: '/' });
 
                 console.log(cookies.cookies.jwt);
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
                 /* Incorrect  */
                 if (data.msg === 'incorrect username') {
                     this.setState({ user_message: data.msg });
                 } else if (data.msg === 'incorrect password') {
                     this.setState({ pass_message: data.msg });
                 } else {
-                    // Redirection should done here
+                    console.log(data);
+                    // Redirect the user to the home page
+                    this.props.history.push('/');
                 }
             });
     }
@@ -96,4 +99,5 @@ class Form extends React.Component {
     }
 }
 
-export default withCookies(Form);
+// Higher order component
+export default compose(withRouter, withCookies)(Form);

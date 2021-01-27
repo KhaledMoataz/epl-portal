@@ -1,7 +1,12 @@
 import React from 'react';
+import { compose } from 'redux';
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
+import { withRouter } from 'react-router-dom';
 import FormComponent from './DataFormComponent';
 
-const endpoint = 'https://f31cbb2ba792.ngrok.io/edit-profile/';
+const endpoint1 = 'https://f31cbb2ba792.ngrok.io/profile/';
+const endpoint2 = 'https://f31cbb2ba792.ngrok.io/edit-profile/';
 
 /*  This file contains the form logic
     The form have 9 states to control the inputs and send thim to the server
@@ -12,6 +17,10 @@ const endpoint = 'https://f31cbb2ba792.ngrok.io/edit-profile/';
 */
 
 class DataForm extends React.Component {
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
+
     constructor() {
         super();
 
@@ -34,22 +43,30 @@ class DataForm extends React.Component {
         this.changeHandler = this.changeHandler.bind(this);
     }
 
+    // TO Check the user Autherization
     componentDidMount() {
-        fetch(endpoint, {
+        const { cookies } = this.props;
+
+        fetch(endpoint1, {
             method: 'GET',
             headers: {
+                jwt: cookies.cookies.jwt,
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
             }
         })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.msg !== 'success') {
-                    this.setState({ pass_message: data.msg });
-                } else {
-                    // Redirection should done here
+            .then((response) =>
+                response.json().then((jsonResponse) => ({ ok: response.ok, data: jsonResponse }))
+            )
+            .then(({ ok, data }) => {
+                console.log(ok);
+                console.log(data);
+                if (ok) this.setState(data);
+                else {
+                    // Redirect the user to the login page
+                    this.props.history.push('/login');
                 }
-            });   
+            });
     }
 
     changeHandler(event) {
@@ -71,7 +88,7 @@ class DataForm extends React.Component {
         if (this.state.pass_message) return;
         // console.log(JSON.stringify(this.state));
 
-        fetch(endpoint, {
+        fetch(endpoint2, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -101,4 +118,4 @@ class DataForm extends React.Component {
     }
 }
 
-export default DataForm;
+export default compose(withRouter, withCookies)(DataForm);
