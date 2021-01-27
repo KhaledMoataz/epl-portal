@@ -23,9 +23,10 @@ const Styles = styled.div`
 `;
 
 const NavigationBar = () => {
-    const [cookies] = useCookies(['role']);
+    const [cookies, , removeCookie] = useCookies(['role']);
     const userType = getUserType(cookies.role);
     const [, dispatch] = useContext(Context);
+
     return (
         <Styles>
             <Navbar expand="lg">
@@ -78,8 +79,13 @@ const NavigationBar = () => {
                                     </Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link>
-                                        <Link to="/">Logout</Link>
+                                    <Nav.Link
+                                        to="/"
+                                        onClick={() => {
+                                            removeCookie('jwt');
+                                            removeCookie('role');
+                                        }}>
+                                        Logout
                                     </Nav.Link>
                                 </Nav.Item>
                             </>
