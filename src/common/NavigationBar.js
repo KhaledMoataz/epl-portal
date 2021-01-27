@@ -79,13 +79,15 @@ const NavigationBar = () => {
                                     </Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link
-                                        to="/"
-                                        onClick={() => {
-                                            removeCookie('jwt');
-                                            removeCookie('role');
-                                        }}>
-                                        Logout
+                                    <Nav.Link>
+                                        <Link
+                                            to="/login"
+                                            onClick={() => {
+                                                removeCookie('jwt');
+                                                removeCookie('role');
+                                            }}>
+                                            Logout
+                                        </Link>
                                     </Nav.Link>
                                 </Nav.Item>
                             </>
