@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -6,6 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { LinearProgress } from '@material-ui/core';
+import { Context } from '../Store';
 
 export default function AddStadiumDialog({ isShown, handleClose, addStadium }) {
     const initialState = {
@@ -16,6 +17,7 @@ export default function AddStadiumDialog({ isShown, handleClose, addStadium }) {
     const [stadium, setStadium] = useState(initialState);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState({ name: '', rows: '', cols: '' });
+    const [, dispatch] = useContext(Context);
 
     const handleNameChange = (event) => {
         const { value } = event.target;
@@ -77,7 +79,7 @@ export default function AddStadiumDialog({ isShown, handleClose, addStadium }) {
             .catch((errorThrown) => {
                 if (errorThrown.message === 'ok') return;
                 setLoading(false);
-                alert(errorThrown.message);
+                dispatch({ type: 'ERROR', payload: errorThrown.message });
             });
     };
 

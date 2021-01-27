@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { LinearProgress } from '@material-ui/core';
 import DateTimeWrapper from './DateTimeWrapper';
+import { Context } from '../../Store';
 
 function MatchDetailsCard({ match, teams, stadiums, toBeAdded, dialogClose, addNewMatch }) {
     const states = Object.freeze({
@@ -19,6 +20,7 @@ function MatchDetailsCard({ match, teams, stadiums, toBeAdded, dialogClose, addN
         time: dateTime.getTimeInputFormat()
     });
     const [loading, setLoading] = useState(false);
+    const [, dispatch] = useContext(Context);
     const history = useHistory();
 
     const postMatch = (isNew) => {
@@ -60,13 +62,13 @@ function MatchDetailsCard({ match, teams, stadiums, toBeAdded, dialogClose, addN
                 if (ok) {
                     addNewMatch({ id: data.id, ...matchState });
                 } else {
-                    // validation error
+                    dispatch({ type: 'ERROR', payload: data.msg });
                 }
             })
             .catch((errorThrown) => {
                 if (errorThrown.message === 'ok') return;
                 setLoading(false);
-                alert(errorThrown.message);
+                dispatch({ type: 'ERROR', payload: errorThrown.message });
             });
     };
 

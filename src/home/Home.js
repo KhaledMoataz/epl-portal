@@ -15,7 +15,7 @@ import AddStadiumDialog from './AddStadiumDialog';
 import { Context } from '../Store';
 
 const Home = () => {
-    const useFakeData = false;
+    const useFakeData = true;
     const [matches, setMatches] = useState(null);
     const [stadiums, setStadiums] = useState(null);
     const [teams, setTeams] = useState(null);
@@ -121,15 +121,14 @@ const Home = () => {
         <div className="container-fluid home">
             <div className="row">
                 <div className="text-center left-list col-3 d-lg-block d-none">
-                    <div className="home-buttons">
-                        {stadiums != null ? (
-                            <button
-                                onClick={() => showAddingStadium(true)}
-                                type="button"
-                                className="add-stadium-button btn btn-primary">
-                                Add Stadium
-                            </button>
-                        ) : null}
+                    <StadiumList stadiums={stadiums} />
+                </div>
+
+                <div className="middle-list col-lg-6 col-md-9 col-12">
+                    <div className="ml-3 mr-0 mb-2 d-flex justify-content-start align-items-center">
+                        <h1>{globalState.showMyMatchesOnly ? 'Reservations' : 'All Matches'}</h1>
+                        <div className="ml-auto" />
+                        {/* TODO show for manager only */}
                         {matches !== null &&
                         stadiums != null &&
                         teams != null &&
@@ -137,16 +136,23 @@ const Home = () => {
                         teams.length >= 2 ? (
                             <button
                                 type="button"
-                                className="add-match-button btn btn-primary"
+                                className="add-match-button btn btn-outline-secondary"
                                 onClick={() => showAddingMatch(true)}>
                                 Add Match
                             </button>
                         ) : null}
+                        {stadiums != null ? (
+                            <button
+                                onClick={() => showAddingStadium(true)}
+                                type="button"
+                                className="ml-1 add-stadium-button btn btn-outline-secondary">
+                                Add Stadium
+                            </button>
+                        ) : null}
                     </div>
-                    <StadiumList stadiums={stadiums} />
-                </div>
-
-                <div className="middle-list col-lg-6 col-md-9 col-12">
+                    {matches !== null && matches.length === 0 ? (
+                        <p className="lead">No matches to show</p>
+                    ) : null}
                     <MatchDetailsList matches={matches} stadiums={stadiums} teams={teams} />
                     <Loading isShown={matches === null} />
                 </div>

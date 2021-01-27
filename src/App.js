@@ -7,11 +7,13 @@ import Signup from './Signup/Signup';
 import Login from './Login/Login';
 import Profile from './Profile/Profile';
 import Store from './Store';
+import ErrorDialog from './common/ErrorDialog';
 
 const App = () => (
     <Store>
         <Router>
             <NavigationBar />
+            <ErrorDialog />
             <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/my-reservations" component={Home} />
