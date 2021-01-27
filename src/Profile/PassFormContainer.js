@@ -1,7 +1,7 @@
 import React from 'react';
 import PassFormComponent from './PassFormComponent';
 
-const endpoint = 'https://f31cbb2ba792.ngrok.io/profile/';
+const endpoint = 'https://f31cbb2ba792.ngrok.io/change-password/';
 
 /*  This file contains the form logic
     The form have 10 states to control the inputs and send thim to the server
@@ -50,11 +50,12 @@ class PassForm extends React.Component {
         // console.log(JSON.stringify(this.state));
 
         fetch(endpoint, {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
             },
+            credentials: 'same-origin',
             body: JSON.stringify(this.state)
         })
             .then((response) => response.json())

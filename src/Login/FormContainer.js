@@ -1,4 +1,6 @@
 import React from 'react';
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
 import FormComponent from './FormComponent';
 
 const endpoint = 'https://f31cbb2ba792.ngrok.io/login/';
@@ -12,6 +14,10 @@ const endpoint = 'https://f31cbb2ba792.ngrok.io/login/';
 */
 
 class Form extends React.Component {
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
+
     constructor() {
         super();
 
@@ -56,13 +62,11 @@ class Form extends React.Component {
             body: JSON.stringify(this.state)
         })
             .then((response) => {
-                console.log(response.headers.get('set-cookie'));
-                console.log(response.headers.get('Set-Cookie.jwt'));
-                console.log(response.headers.get('ETag'));
-                console.log(response.headers.get('Access-Control-Allow-Origin'));
-                console.log(response.headers.get('X-Powered-By'));
-                console.log(response.headers.get('Access-Control-Allow-Credentials'));
-                console.log(document.cookie); // nope
+                // setting the token as cookie called jwt
+                const { cookies } = this.props;
+                cookies.set('jwt', response.headers.get('jwt'), { path: '/' });
+
+                console.log(cookies.cookies.jwt);
                 return response.json();
             })
             .then((data) => {
@@ -79,7 +83,7 @@ class Form extends React.Component {
     }
 
     render() {
-        console.log(document.cookie);
+        // console.log(document.cookie);
         // console.log(JSON.stringify(this.state))
         return (
             <FormComponent
@@ -92,4 +96,4 @@ class Form extends React.Component {
     }
 }
 
-export default Form;
+export default withCookies(Form);

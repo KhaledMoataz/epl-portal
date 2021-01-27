@@ -1,7 +1,7 @@
 import React from 'react';
 import FormComponent from './DataFormComponent';
 
-const endpoint = 'https://f31cbb2ba792.ngrok.io/profile/';
+const endpoint = 'https://f31cbb2ba792.ngrok.io/edit-profile/';
 
 /*  This file contains the form logic
     The form have 9 states to control the inputs and send thim to the server
@@ -16,6 +16,7 @@ class DataForm extends React.Component {
         super();
 
         this.state = {
+            username: '',
             first_name: '',
             last_name: '',
             birthdate: '2021-1-1',
@@ -31,6 +32,24 @@ class DataForm extends React.Component {
 
         this.submitHandler = this.submitHandler.bind(this);
         this.changeHandler = this.changeHandler.bind(this);
+    }
+
+    componentDidMount() {
+        fetch(endpoint, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json'
+            }
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.msg !== 'success') {
+                    this.setState({ pass_message: data.msg });
+                } else {
+                    // Redirection should done here
+                }
+            });   
     }
 
     changeHandler(event) {
@@ -53,7 +72,7 @@ class DataForm extends React.Component {
         // console.log(JSON.stringify(this.state));
 
         fetch(endpoint, {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
