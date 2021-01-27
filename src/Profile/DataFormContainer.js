@@ -101,6 +101,8 @@ class DataForm extends React.Component {
         })
             .then((response) => response.json())
             .then((data) => {
+                console.log(data);
+                console.log(0);
                 if (data.msg !== 'success') {
                     this.setState({ pass_message: data.msg });
                 } else {

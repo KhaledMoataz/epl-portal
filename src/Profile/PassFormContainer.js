@@ -27,7 +27,8 @@ class PassForm extends React.Component {
             confirm_new_password: '',
 
             old_pass_message: null,
-            new_pass_message: null
+            new_pass_message: null,
+            confirm_pass_message: null
         };
 
         this.submitHandler = this.submitHandler.bind(this);
@@ -42,8 +43,8 @@ class PassForm extends React.Component {
             presents it's content as error message below the item
         */
         if (name === 'old_password') this.setState({ old_pass_message: null });
-        else if (name === 'new_password' || name === 'confirm_new_password')
-            this.setState({ new_pass_message: null });
+        else if (name === 'new_password') this.setState({ new_pass_message: null });
+        else if (name === 'confirm_new_password') this.setState({ confirm_pass_message: null });
 
         this.setState({ [name]: value });
     }
@@ -54,7 +55,12 @@ class PassForm extends React.Component {
         const { cookies } = this.props;
 
         /* to don't send request again if the user didn't update the input after the error */
-        if (this.state.old_pass_message || this.state.new_pass_message) return;
+        if (
+            this.state.old_pass_message ||
+            this.state.new_pass_message ||
+            this.state.confirm_pass_message
+        )
+            return;
         // console.log(JSON.stringify(this.state));
 
         fetch(endpoint, {
@@ -72,6 +78,8 @@ class PassForm extends React.Component {
                 /*  Store the server response in variables */
                 let oldPassMessage = data.old_password;
                 let newPassMessage = data.new_password;
+                let confirmPassMessage = data.confirm;
+                console.log(data);
 
                 if (data.msg === 'error') {
                     /*  The Message that empty it means it's not thre reason for the erron so
@@ -79,10 +87,12 @@ class PassForm extends React.Component {
                     */
                     if (oldPassMessage.length === 0) oldPassMessage = null;
                     if (newPassMessage.length === 0) newPassMessage = null;
+                    if (confirmPassMessage.length === 0) confirmPassMessage = null;
 
                     this.setState({
                         old_pass_message: oldPassMessage,
-                        new_pass_message: newPassMessage
+                        new_pass_message: newPassMessage,
+                        confirm_pass_message: confirmPassMessage
                     });
                 } else {
                     // Redirection should done here
@@ -98,6 +108,7 @@ class PassForm extends React.Component {
                 submitHandler={this.submitHandler}
                 old_pass_message={this.state.old_pass_message}
                 new_pass_message={this.state.new_pass_message}
+                confirm_pass_message={this.state.confirm_pass_message}
             />
         );
     }

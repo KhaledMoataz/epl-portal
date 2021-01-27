@@ -43,8 +43,8 @@ const PassFormComponent = (props) => (
             item="fa fa-lock fa-fw"
             type="password"
             placeholder="Confirm new password"
-            invalid_message={props.new_pass_message}
-            validation={props.new_pass_message ? 'is-invalid' : ''}
+            invalid_message={props.confirm_pass_message}
+            validation={props.confirm_pass_message ? 'is-invalid' : ''}
         />
 
         <div className="form-group input-group text-center">
