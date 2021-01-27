@@ -1,18 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react';
+import './styles.css';
 import { Dialog } from '@material-ui/core';
+import { useCookies } from 'react-cookie';
 import MatchDetailsList from './matches/MatchDetailsList';
 import TeamList from './teams/TeamList';
 import StadiumList from './stadiums/StadiumList';
-import './styles.css';
 import Loading from '../common/Loading';
+import MatchDetailsCard from './matches/MatchDetailsCard';
+import AddStadiumDialog from './AddStadiumDialog';
+import { Context } from '../Store';
+import { BASE_URL, getRequestOptions, MANAGER } from '../common/constants';
 
 // fake data
 import matchesFile from './fake-data/matches-details';
 import stadiumsFile from './fake-data/stadiums';
 import teamsFile from './fake-data/teams';
-import MatchDetailsCard from './matches/MatchDetailsCard';
-import AddStadiumDialog from './AddStadiumDialog';
-import { Context } from '../Store';
 
 const Home = () => {
     const useFakeData = true;
@@ -22,24 +24,20 @@ const Home = () => {
     const [isAddingMatchShown, showAddingMatch] = useState(false);
     const [isAddingStadiumShown, showAddingStadium] = useState(false);
     const [globalState] = useContext(Context);
+    const [cookies] = useCookies(['jwt']);
 
-    const baseUrl = 'https://f31cbb2ba792.ngrok.io';
-
+    // TODO extract token and userType from cookies
+    const userType = MANAGER;
+    const token = cookies.jwt;
+    console.log(token);
+    const requestOptions = getRequestOptions(token);
     const fetchMatches = () => {
         if (useFakeData) {
             setMatches(matchesFile);
             return;
         }
-        const requestOptions = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                jwt:
-                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMTBiZDU1ZGQyMTZjNjEwODMwNzA4MyIsImlhdCI6MTYxMTcxMzE1MSwiZXhwIjoxNjExNzk5NTUxfQ.bNGpiPA3UwMGgBQqKvEwhJx-dNUAzoCszLWhS3vNEeU'
-            }
-        };
         fetch(
-            `${baseUrl}/matches/${globalState.showMyMatchesOnly ? 'my-matches' : 'all'}`,
+            `${BASE_URL}/matches/${globalState.showMyMatchesOnly ? 'my-matches' : 'all'}`,
             requestOptions
         )
             .then((response) => response.json())
@@ -66,7 +64,7 @@ const Home = () => {
             setStadiums(stadiumsFile);
             return;
         }
-        fetch(`${baseUrl}/stadia/all`)
+        fetch(`${BASE_URL}/stadia/all`, requestOptions)
             .then((response) => response.json())
             .then((response) =>
                 response.stadia.map((stadium) => ({
@@ -84,7 +82,7 @@ const Home = () => {
             setTeams(teamsFile);
             return;
         }
-        fetch(`${baseUrl}/teams/all`)
+        fetch(`${BASE_URL}/teams/all`)
             .then((response) => response.json())
             .then((response) =>
                 response.teams.map((team) => ({
@@ -127,33 +125,42 @@ const Home = () => {
                 <div className="middle-list col-lg-6 col-md-9 col-12">
                     <div className="ml-3 mr-0 mb-2 d-flex justify-content-start align-items-center">
                         <h1>{globalState.showMyMatchesOnly ? 'Reservations' : 'All Matches'}</h1>
-                        <div className="ml-auto" />
-                        {/* TODO show for manager only */}
-                        {matches !== null &&
-                        stadiums != null &&
-                        teams != null &&
-                        stadiums.length >= 1 &&
-                        teams.length >= 2 ? (
-                            <button
-                                type="button"
-                                className="add-match-button btn btn-outline-secondary"
-                                onClick={() => showAddingMatch(true)}>
-                                Add Match
-                            </button>
-                        ) : null}
-                        {stadiums != null ? (
-                            <button
-                                onClick={() => showAddingStadium(true)}
-                                type="button"
-                                className="ml-1 add-stadium-button btn btn-outline-secondary">
-                                Add Stadium
-                            </button>
-                        ) : null}
+                        {userType === MANAGER && (
+                            <>
+                                <div className="ml-auto" />
+                                {matches !== null &&
+                                stadiums != null &&
+                                teams != null &&
+                                stadiums.length >= 1 &&
+                                teams.length >= 2 ? (
+                                    <button
+                                        type="button"
+                                        className="add-match-button btn btn-outline-secondary"
+                                        onClick={() => showAddingMatch(true)}>
+                                        Add Match
+                                    </button>
+                                ) : null}
+                                {stadiums != null ? (
+                                    <button
+                                        onClick={() => showAddingStadium(true)}
+                                        type="button"
+                                        className="ml-1 add-stadium-button btn btn-outline-secondary">
+                                        Add Stadium
+                                    </button>
+                                ) : null}
+                            </>
+                        )}
                     </div>
                     {matches !== null && matches.length === 0 ? (
                         <p className="lead">No matches to show</p>
                     ) : null}
-                    <MatchDetailsList matches={matches} stadiums={stadiums} teams={teams} />
+                    <MatchDetailsList
+                        matches={matches}
+                        stadiums={stadiums}
+                        teams={teams}
+                        userType={userType}
+                        token={token}
+                    />
                     <Loading isShown={matches === null} />
                 </div>
 
@@ -184,6 +191,8 @@ const Home = () => {
                         toBeAdded
                         dialogClose={() => showAddingMatch(false)}
                         addNewMatch={addNewMatch}
+                        userType={userType}
+                        token={token}
                     />
                 ) : null}
             </Dialog>
@@ -191,6 +200,7 @@ const Home = () => {
                 isShown={isAddingStadiumShown}
                 handleClose={() => showAddingStadium(false)}
                 addStadium={addStadium}
+                token={token}
             />
         </div>
     );

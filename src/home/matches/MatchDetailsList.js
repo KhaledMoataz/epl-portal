@@ -1,14 +1,16 @@
 import React from 'react';
 import MatchDetailsCard from './MatchDetailsCard';
 
-function MatchDetailsList(props) {
-    if (props.matches === null) return null;
-    const matchDetailsCards = props.matches.map((match) => (
+function MatchDetailsList({ matches, stadiums, teams, userType, token }) {
+    if (matches === null) return null;
+    const matchDetailsCards = matches.map((match) => (
         <MatchDetailsCard
             key={match.id}
             match={match}
-            stadiums={props.stadiums}
-            teams={props.teams}
+            stadiums={stadiums}
+            teams={teams}
+            userType={userType}
+            token={token}
         />
     ));
     return <div>{matchDetailsCards}</div>;

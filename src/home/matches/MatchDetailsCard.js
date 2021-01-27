@@ -3,16 +3,20 @@ import { useHistory } from 'react-router-dom';
 import { LinearProgress } from '@material-ui/core';
 import DateTimeWrapper from './DateTimeWrapper';
 import { Context } from '../../Store';
+import { FAN, GUEST, MANAGER, BASE_URL, buildRequestOptions } from '../../common/constants';
 
-function MatchDetailsCard({ match, teams, stadiums, toBeAdded, dialogClose, addNewMatch }) {
-    const states = Object.freeze({
-        guest: 0,
-        user: 1,
-        manager: 2,
-        managerEditable: 3
-    });
+function MatchDetailsCard({
+    match,
+    teams,
+    stadiums,
+    toBeAdded,
+    dialogClose,
+    addNewMatch,
+    userType,
+    token
+}) {
     const [matchDetails, setMatchDetails] = useState(match);
-    const [state, setState] = useState(states.manager);
+    const [editable, setEditable] = useState(false);
     const dateTime = new DateTimeWrapper(matchDetails.datetime);
     const [editState, setEditState] = useState({
         ...match,
@@ -38,13 +42,9 @@ function MatchDetailsCard({ match, teams, stadiums, toBeAdded, dialogClose, addN
             linesman1: matchState.firstLinesman,
             linesman2: matchState.secondLinesman
         };
-        const requestOptions = {
-            method: `${isNew ? 'POST' : 'PUT'}`,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(matchObj)
-        };
+        const requestOptions = buildRequestOptions(isNew ? 'POST' : 'PUT', token, matchObj);
         setLoading(true);
-        fetch(`https://f31cbb2ba792.ngrok.io/matches/${isNew ? 'add' : 'edit'}`, requestOptions)
+        fetch(`${BASE_URL}/matches/${isNew ? 'add' : 'edit'}`, requestOptions)
             .then((response) => {
                 setLoading(false);
                 if (isNew || !response.ok) {
@@ -53,7 +53,7 @@ function MatchDetailsCard({ match, teams, stadiums, toBeAdded, dialogClose, addN
                         .then((responseObj) => ({ ok: response.ok, data: responseObj }));
                 }
                 setMatchDetails(matchState);
-                setState(states.manager);
+                setEditable(false);
                 throw Error('ok');
             })
             .then(({ ok, data }) => {
@@ -76,9 +76,10 @@ function MatchDetailsCard({ match, teams, stadiums, toBeAdded, dialogClose, addN
     const handlePrimaryClick = () => {
         if (toBeAdded) {
             postMatch(true);
-        } else if (state !== states.guest && state !== states.managerEditable) {
+        } else if (userType !== GUEST && !editable) {
+            // TODO /reservation/id
             history.push('/reservation');
-        } else if (state === states.managerEditable) {
+        } else if (editable) {
             postMatch(false);
         }
     };
@@ -89,15 +90,15 @@ function MatchDetailsCard({ match, teams, stadiums, toBeAdded, dialogClose, addN
             dialogClose();
             return;
         }
-        if (state === states.managerEditable) {
-            setState(states.manager);
-        } else if (state === states.manager) {
+        if (editable) {
+            setEditable(false);
+        } else {
             setEditState({
                 ...matchDetails,
                 date: dateTime.getDateSelectFormat(),
                 time: dateTime.getTimeInputFormat()
             });
-            setState(states.managerEditable);
+            setEditable(true);
         }
     };
 
@@ -135,7 +136,7 @@ function MatchDetailsCard({ match, teams, stadiums, toBeAdded, dialogClose, addN
         editState.firstLinesman !== '' &&
         editState.secondLinesman !== '';
 
-    if (state === states.managerEditable || toBeAdded) {
+    if (editable || toBeAdded) {
         return (
             <div className={`card match-details shadow-sm rounded ${toBeAdded ? 'm-0' : ''}`}>
                 {loading ? <LinearProgress /> : null}
@@ -312,7 +313,7 @@ function MatchDetailsCard({ match, teams, stadiums, toBeAdded, dialogClose, addN
                     </tbody>
                 </table>
                 <div style={{ marginLeft: 'auto' }} />
-                {state !== states.user ? (
+                {userType === MANAGER ? (
                     <button
                         type="button"
                         className="btn btn-secondary edit-match-details-btn"
@@ -320,9 +321,11 @@ function MatchDetailsCard({ match, teams, stadiums, toBeAdded, dialogClose, addN
                         Edit
                     </button>
                 ) : null}
-                <button type="button" className="btn btn-primary" onClick={handlePrimaryClick}>
-                    {state === states.user ? 'Buy Tickets' : 'Show Details'}
-                </button>
+                {userType !== GUEST ? (
+                    <button type="button" className="btn btn-primary" onClick={handlePrimaryClick}>
+                        {userType === FAN ? 'Buy Tickets' : 'Show Details'}
+                    </button>
+                ) : null}
             </div>
         </div>
     );
