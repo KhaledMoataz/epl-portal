@@ -17,3 +17,5 @@ export const buildRequestOptions = (method, jwt, obj) => {
 };
 
 export const getRequestOptions = (jwt) => buildRequestOptions('GET', jwt);
+
+export const getUserType = (role) => (typeof role === 'undefined' ? GUEST : parseInt(role, 4));

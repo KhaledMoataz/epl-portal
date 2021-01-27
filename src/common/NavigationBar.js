@@ -2,7 +2,9 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Nav, Navbar } from 'react-bootstrap';
 import styled from 'styled-components';
+import { useCookies } from 'react-cookie';
 import { Context } from '../Store';
+import { FAN, getUserType, GUEST } from './constants';
 
 const Styles = styled.div`
     .navbar {
@@ -21,6 +23,8 @@ const Styles = styled.div`
 `;
 
 const NavigationBar = () => {
+    const [cookies] = useCookies(['role']);
+    const userType = getUserType(cookies.role);
     const [, dispatch] = useContext(Context);
     return (
         <Styles>
@@ -40,37 +44,46 @@ const NavigationBar = () => {
                                 </Link>
                             </Nav.Link>
                         </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link>
-                                <Link
-                                    to="/"
-                                    onClick={() =>
-                                        dispatch({ type: 'MY_MATCHES_ONLY', payload: true })
-                                    }>
-                                    My Reservations
-                                </Link>
-                            </Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link>
-                                <Link to="/reservation">Reservation</Link>
-                            </Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link>
-                                <Link to="/signup">Signup</Link>
-                            </Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link>
-                                <Link to="/login">Login</Link>
-                            </Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link>
-                                <Link to="/profile">Profile</Link>
-                            </Nav.Link>
-                        </Nav.Item>
+                        {userType === FAN && (
+                            <Nav.Item>
+                                <Nav.Link>
+                                    <Link
+                                        to="/"
+                                        onClick={() =>
+                                            dispatch({ type: 'MY_MATCHES_ONLY', payload: true })
+                                        }>
+                                        My Reservations
+                                    </Link>
+                                </Nav.Link>
+                            </Nav.Item>
+                        )}
+                        {userType === GUEST ? (
+                            <>
+                                <Nav.Item>
+                                    <Nav.Link>
+                                        <Link to="/signup">Signup</Link>
+                                    </Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link>
+                                        <Link to="/login">Login</Link>
+                                    </Nav.Link>
+                                </Nav.Item>
+                            </>
+                        ) : (
+                            <>
+                                <Nav.Item>
+                                    <Nav.Link>
+                                        <Link to="/profile">Profile</Link>
+                                    </Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link>
+                                        <Link to="/">Logout</Link>
+                                    </Nav.Link>
+                                </Nav.Item>
+                            </>
+                        )}
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

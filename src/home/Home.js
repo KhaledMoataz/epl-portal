@@ -9,7 +9,7 @@ import Loading from '../common/Loading';
 import MatchDetailsCard from './matches/MatchDetailsCard';
 import AddStadiumDialog from './AddStadiumDialog';
 import { Context } from '../Store';
-import { BASE_URL, getRequestOptions, GUEST, MANAGER } from '../common/constants';
+import { BASE_URL, getRequestOptions, getUserType, MANAGER } from '../common/constants';
 
 // fake data
 import matchesFile from './fake-data/matches-details';
@@ -26,10 +26,10 @@ const Home = () => {
     const [globalState, dispatch] = useContext(Context);
     const [cookies] = useCookies(['jwt', 'role']);
 
-    const userType = typeof cookies.role === 'undefined' ? GUEST : cookies.role;
+    const userType = getUserType(cookies.role);
     const token = cookies.jwt;
     console.log(token);
-    console.log(cookies.userType);
+    console.log(userType);
     const requestOptions = getRequestOptions(token);
 
     const fetchMatches = () => {
