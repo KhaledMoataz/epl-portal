@@ -11,8 +11,9 @@ import Item from './Item';
         3- item:            icon th preappend it in the item
         4- type:            the input type for this item e.g. text, password, date ... etc
         5- placeholder:     message to be shown inside the input if empty
-        6- invalid_message  the message to be shown below the item if typed invalid input
-        7- validation       when 'is-invalid' it shows error message below this item
+        6- value:           to set the item value that given from the server
+        7- invalid_message  the message to be shown below the item if typed invalid input
+        8- validation       when 'is-invalid' it shows error message below this item
 */
 
 const DataFormComponent = (props) => (
@@ -23,6 +24,7 @@ const DataFormComponent = (props) => (
             item="fa fa-user-o fa-fw"
             type="username"
             placeholder="username"
+            value={props.states.username}
         />
 
         <Item
@@ -31,6 +33,7 @@ const DataFormComponent = (props) => (
             item="fa fa-user fa-fw"
             type="text"
             placeholder="First Name"
+            value={props.states.first_name}
         />
 
         <Item
@@ -39,6 +42,7 @@ const DataFormComponent = (props) => (
             item="fa fa-user fa-fw"
             type="text"
             placeholder="Last Name"
+            value={props.states.last_name}
         />
 
         <Item
@@ -47,6 +51,7 @@ const DataFormComponent = (props) => (
             item="fa fa-birthday-cake fa-fw"
             type="date"
             placeholder="Date"
+            value={props.states.birthdate}
         />
 
         <Item
@@ -55,6 +60,7 @@ const DataFormComponent = (props) => (
             item="fa fa-chevron-circle-down fa-fw"
             type="gender"
             placeholder="Gender"
+            value={props.states.gender}
         />
 
         <Item
@@ -63,6 +69,7 @@ const DataFormComponent = (props) => (
             item="fa fa-location-arrow fa-fw"
             type="city"
             placeholder="City"
+            value={props.states.city}
         />
 
         <Item
@@ -71,6 +78,7 @@ const DataFormComponent = (props) => (
             item="fa fa-map-marker fa-fw"
             type="address"
             placeholder="Address"
+            value={props.states.address}
         />
 
         <Item
@@ -79,6 +87,7 @@ const DataFormComponent = (props) => (
             item="fa fa-envelope fa-fw"
             type="email"
             placeholder="email"
+            value={props.states.email}
         />
 
         <Item
@@ -87,6 +96,7 @@ const DataFormComponent = (props) => (
             item="fa fa-chevron-circle-down fa-fw"
             type="role"
             placeholder="role"
+            value={props.states.role}
             invalid_message={props.role_message}
             validation={props.role_message ? 'is-invalid' : ''}
         />
@@ -97,8 +107,8 @@ const DataFormComponent = (props) => (
             item="fa fa-lock fa-fw"
             type="password"
             placeholder="Password"
-            invalid_message={props.pass_message}
-            validation={props.pass_message ? 'is-invalid' : ''}
+            invalid_message={props.states.pass_message}
+            validation={props.states.pass_message ? 'is-invalid' : ''}
         />
 
         <div className="form-group input-group text-center">

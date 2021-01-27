@@ -1,5 +1,4 @@
 import React from 'react';
-// import { useHistory } from 'react-router-dom';
 import DataForm from './DataFormContainer';
 import PassForm from './PassFormContainer';
 import '../common/styles.css';

@@ -18,7 +18,11 @@ const Item = (props) => {
 
     if (props.type === 'gender') {
         editedElement = (
-            <select name={props.name} className="custom-select" onChange={props.onChange}>
+            <select
+                value={props.value}
+                name={props.name}
+                className="custom-select"
+                onChange={props.onChange}>
                 <option value="Male" defaultValue>
                     Male
                 </option>
@@ -27,7 +31,12 @@ const Item = (props) => {
         );
     } else if (props.type === 'role') {
         editedElement = (
-            <select name={props.name} className="custom-select" onChange={props.onChange}>
+            <select
+                value={props.value}
+                name={props.name}
+                disabled
+                className="custom-select"
+                onChange={props.onChange}>
                 <option value="Fan" defaultValue>
                     Fan
                 </option>
@@ -43,6 +52,7 @@ const Item = (props) => {
                 type={props.type}
                 placeholder={props.placeholder}
                 className="form-control"
+                value={props.value}
             />
         );
     } else if (props.type === 'email' || props.type === 'username') {
@@ -54,6 +64,7 @@ const Item = (props) => {
                 readOnly
                 placeholder={props.placeholder}
                 className={`form-control ${props.validation}`}
+                value={props.value}
             />
         );
     } else {
@@ -65,6 +76,7 @@ const Item = (props) => {
                 required
                 placeholder={props.placeholder}
                 className={`form-control ${props.validation}`}
+                value={props.value}
             />
         );
     }

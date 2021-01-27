@@ -1,4 +1,6 @@
 import React from 'react';
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
 import PassFormComponent from './PassFormComponent';
 
 const endpoint = 'https://f31cbb2ba792.ngrok.io/change-password/';
@@ -12,6 +14,10 @@ const endpoint = 'https://f31cbb2ba792.ngrok.io/change-password/';
 */
 
 class PassForm extends React.Component {
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
+
     constructor() {
         super();
 
@@ -45,6 +51,8 @@ class PassForm extends React.Component {
     submitHandler(event) {
         event.preventDefault();
 
+        const { cookies } = this.props;
+
         /* to don't send request again if the user didn't update the input after the error */
         if (this.state.old_pass_message || this.state.new_pass_message) return;
         // console.log(JSON.stringify(this.state));
@@ -52,6 +60,7 @@ class PassForm extends React.Component {
         fetch(endpoint, {
             method: 'PUT',
             headers: {
+                jwt: cookies.cookies.jwt,
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
             },
@@ -94,4 +103,4 @@ class PassForm extends React.Component {
     }
 }
 
-export default PassForm;
+export default withCookies(PassForm);

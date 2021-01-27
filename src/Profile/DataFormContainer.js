@@ -61,7 +61,7 @@ class DataForm extends React.Component {
             .then(({ ok, data }) => {
                 console.log(ok);
                 console.log(data);
-                if (ok) this.setState(data);
+                if (ok) this.setState({ ...data, birthdate: data.birthdate.substr(0, 10) });
                 else {
                     // Redirect the user to the login page
                     this.props.history.push('/login');
@@ -84,6 +84,8 @@ class DataForm extends React.Component {
     submitHandler(event) {
         event.preventDefault();
 
+        const { cookies } = this.props;
+
         /* to don't send request again if the user didn't update the input after the error */
         if (this.state.pass_message) return;
         // console.log(JSON.stringify(this.state));
@@ -91,6 +93,7 @@ class DataForm extends React.Component {
         fetch(endpoint2, {
             method: 'PUT',
             headers: {
+                jwt: cookies.cookies.jwt,
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
             },
@@ -112,7 +115,7 @@ class DataForm extends React.Component {
             <FormComponent
                 changeHandler={this.changeHandler}
                 submitHandler={this.submitHandler}
-                pass_message={this.state.pass_message}
+                states={this.state}
             />
         );
     }
