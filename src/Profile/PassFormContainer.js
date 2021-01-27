@@ -3,7 +3,7 @@ import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 import PassFormComponent from './PassFormComponent';
 
-const endpoint = 'https://f31cbb2ba792.ngrok.io/change-password/';
+const endpoint = 'https://22bb1132efec.ngrok.io/change-password/';
 
 /*  This file contains the form logic
     The form have 10 states to control the inputs and send thim to the server

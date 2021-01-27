@@ -5,7 +5,7 @@ import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 import FormComponent from './FormComponent';
 
-const endpoint = 'https://f31cbb2ba792.ngrok.io/login/';
+const endpoint = 'https://22bb1132efec.ngrok.io/login/';
 
 /*  This file contains the form logic
     The form have 2 states to control the inputs and send thim to the server
@@ -51,6 +51,8 @@ class Form extends React.Component {
     submitHandler(event) {
         event.preventDefault();
 
+        const { cookies } = this.props;
+
         /* to don't send request again if the user didn't update the input after the error */
         if (this.state.user_message || this.state.pass_message) return;
         // console.log(JSON.stringify(this.state));
@@ -64,7 +66,6 @@ class Form extends React.Component {
             body: JSON.stringify(this.state)
         })
             .then((response) => {
-                const { cookies } = this.props;
                 // setting the token as cookie called jwt
                 cookies.set('jwt', response.headers.get('jwt'), { path: '/' });
 
@@ -79,6 +80,11 @@ class Form extends React.Component {
                     this.setState({ pass_message: data.msg });
                 } else {
                     console.log(data);
+                    // setting the token as cookie called jwt
+                    if (data.msg === 'Fan') cookies.set('role', 1, { path: '/' });
+                    else if (data.msg === 'Manager') cookies.set('role', 2, { path: '/' });
+                    else if (data.msg === 'SA') cookies.set('role', 3, { path: '/' });
+
                     // Redirect the user to the home page
                     this.props.history.push('/');
                 }
