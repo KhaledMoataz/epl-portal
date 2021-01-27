@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import FormComponent from './FormComponent';
 
 const endpoint = 'https://f31cbb2ba792.ngrok.io/signup/';
@@ -92,7 +93,8 @@ class Form extends React.Component {
                         email_message: newEmailMessage
                     });
                 } else {
-                    // Redirection should done here
+                    // Redirect the user to the login page
+                    this.props.history.push('/login');
                 }
             });
     }
@@ -111,4 +113,4 @@ class Form extends React.Component {
     }
 }
 
-export default Form;
+export default withRouter(Form);

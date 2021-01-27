@@ -1,4 +1,8 @@
 import React from 'react';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
 import FormComponent from './FormComponent';
 
 const endpoint = 'https://f31cbb2ba792.ngrok.io/login/';
@@ -12,6 +16,10 @@ const endpoint = 'https://f31cbb2ba792.ngrok.io/login/';
 */
 
 class Form extends React.Component {
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
+
     constructor() {
         super();
 
@@ -56,30 +64,29 @@ class Form extends React.Component {
             body: JSON.stringify(this.state)
         })
             .then((response) => {
-                console.log(response.headers.get('set-cookie'));
-                console.log(response.headers.get('Set-Cookie.jwt'));
-                console.log(response.headers.get('ETag'));
-                console.log(response.headers.get('Access-Control-Allow-Origin'));
-                console.log(response.headers.get('X-Powered-By'));
-                console.log(response.headers.get('Access-Control-Allow-Credentials'));
-                console.log(document.cookie); // nope
+                const { cookies } = this.props;
+                // setting the token as cookie called jwt
+                cookies.set('jwt', response.headers.get('jwt'), { path: '/' });
+
+                console.log(cookies.cookies.jwt);
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
                 /* Incorrect  */
                 if (data.msg === 'incorrect username') {
                     this.setState({ user_message: data.msg });
                 } else if (data.msg === 'incorrect password') {
                     this.setState({ pass_message: data.msg });
                 } else {
-                    // Redirection should done here
+                    console.log(data);
+                    // Redirect the user to the home page
+                    this.props.history.push('/');
                 }
             });
     }
 
     render() {
-        console.log(document.cookie);
+        // console.log(document.cookie);
         // console.log(JSON.stringify(this.state))
         return (
             <FormComponent
@@ -92,4 +99,5 @@ class Form extends React.Component {
     }
 }
 
-export default Form;
+// Higher order component
+export default compose(withRouter, withCookies)(Form);

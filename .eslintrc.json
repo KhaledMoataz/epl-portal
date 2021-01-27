@@ -19,6 +19,7 @@
         "react/state-in-constructor": "off",
         "react/prop-types": "off",
         "react/destructuring-assignment": "off",
+        "react/static-property-placement": "warn",
         "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
     }
 }
