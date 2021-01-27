@@ -1,15 +1,16 @@
 .home {
-    margin-top: 10px;
+    margin-top: 15px;
+    max-width: 1300px;
 }
 
 .match-details {
     background-color: #f8f8f8;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .top-info {
     display: flex;
-    padding: 5px;
+    padding: 5px 10px;
     background-color: #ddddff;
 }
 
@@ -64,11 +65,15 @@ th {
     border: 1px solid;
 }
 
+.stadium-list {
+    border: 1px solid;
+}
+
 .team-item {
     display: flex;
     align-items: center;
-    padding-right: 5px;
-    padding-left: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
 }
 
 .team-item > .team-logo {
@@ -94,5 +99,13 @@ th {
 }
 
 .stadium-item {
-    padding: 5px;
+    padding: 5px 10px;
+}
+
+.add-match-button {
+    margin: 10px;
+}
+
+.add-stadium-button {
+    margin: 10px;
 }

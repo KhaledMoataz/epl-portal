@@ -9,8 +9,8 @@ const matchDetails = [
         awayTeamLogo:
             'https://upload.wikimedia.org/wikipedia/en/thumb/0/04/ZamalekSC.png/180px-ZamalekSC.png',
         referee: 'Ayman Adel',
-        firstLineman: 'Ayman Azzam',
-        secondLineman: 'Khaled Moataz'
+        firstLinesman: 'Ayman Azzam',
+        secondLinesman: 'Khaled Moataz'
     },
     {
         id: 1,
@@ -22,8 +22,8 @@ const matchDetails = [
         awayTeamLogo:
             'https://upload.wikimedia.org/wikipedia/en/thumb/0/04/ZamalekSC.png/180px-ZamalekSC.png',
         referee: 'Ayman Adel',
-        firstLineman: 'Ayman Azzam',
-        secondLineman: 'Khaled Moataz'
+        firstLinesman: 'Ayman Azzam',
+        secondLinesman: 'Khaled Moataz'
     },
     {
         id: 2,
@@ -35,8 +35,8 @@ const matchDetails = [
         awayTeamLogo:
             'https://upload.wikimedia.org/wikipedia/en/thumb/0/04/ZamalekSC.png/180px-ZamalekSC.png',
         referee: 'Ayman Adel',
-        firstLineman: 'Ayman Azzam',
-        secondLineman: 'Khaled Moataz'
+        firstLinesman: 'Ayman Azzam',
+        secondLinesman: 'Khaled Moataz'
     }
 ];
 

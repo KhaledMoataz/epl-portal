@@ -2,6 +2,7 @@ import React from 'react';
 import MatchDetailsCard from './MatchDetailsCard';
 
 function MatchDetailsList(props) {
+    if (props.matches === null) return null;
     const matchDetailsCards = props.matches.map((match) => (
         <MatchDetailsCard
             key={match.id}
