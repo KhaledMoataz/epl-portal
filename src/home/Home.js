@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Dialog } from '@material-ui/core';
 import MatchDetailsList from './matches/MatchDetailsList';
 import TeamList from './teams/TeamList';
@@ -12,14 +12,17 @@ import stadiumsFile from './fake-data/stadiums';
 import teamsFile from './fake-data/teams';
 import MatchDetailsCard from './matches/MatchDetailsCard';
 import AddStadiumDialog from './AddStadiumDialog';
+import { Context } from '../Store';
 
-function Home() {
+const Home = () => {
     const useFakeData = false;
     const [matches, setMatches] = useState(null);
     const [stadiums, setStadiums] = useState(null);
     const [teams, setTeams] = useState(null);
     const [isAddingMatchShown, showAddingMatch] = useState(false);
     const [isAddingStadiumShown, showAddingStadium] = useState(false);
+    const [globalState] = useContext(Context);
+
     const baseUrl = 'https://f31cbb2ba792.ngrok.io';
 
     const fetchMatches = () => {
@@ -27,7 +30,18 @@ function Home() {
             setMatches(matchesFile);
             return;
         }
-        fetch(`${baseUrl}/matches/all`)
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                jwt:
+                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMTBiZDU1ZGQyMTZjNjEwODMwNzA4MyIsImlhdCI6MTYxMTcxMzE1MSwiZXhwIjoxNjExNzk5NTUxfQ.bNGpiPA3UwMGgBQqKvEwhJx-dNUAzoCszLWhS3vNEeU'
+            }
+        };
+        fetch(
+            `${baseUrl}/matches/${globalState.showMyMatchesOnly ? 'my-matches' : 'all'}`,
+            requestOptions
+        )
             .then((response) => response.json())
             .then((response) =>
                 response.matches.map((match) => ({
@@ -84,10 +98,14 @@ function Home() {
     };
 
     useEffect(() => {
-        fetchMatches();
         fetchStadiums();
         fetchTeams();
     }, []);
+
+    useEffect(() => {
+        setMatches(null);
+        fetchMatches();
+    }, [globalState.showMyMatchesOnly]);
 
     const addNewMatch = (newMatch) => {
         showAddingMatch(false);
@@ -170,6 +188,6 @@ function Home() {
             />
         </div>
     );
-}
+};
 
 export default Home;
