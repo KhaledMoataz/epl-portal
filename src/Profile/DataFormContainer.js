@@ -5,8 +5,8 @@ import { withCookies, Cookies } from 'react-cookie';
 import { withRouter } from 'react-router-dom';
 import FormComponent from './DataFormComponent';
 
-const endpoint1 = 'https://f31cbb2ba792.ngrok.io/profile/';
-const endpoint2 = 'https://f31cbb2ba792.ngrok.io/edit-profile/';
+const endpoint1 = 'https://22bb1132efec.ngrok.io/profile/';
+const endpoint2 = 'https://22bb1132efec.ngrok.io/edit-profile/';
 
 /*  This file contains the form logic
     The form have 9 states to control the inputs and send thim to the server

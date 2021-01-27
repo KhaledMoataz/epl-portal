@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import FormComponent from './FormComponent';
 
-const endpoint = 'https://f31cbb2ba792.ngrok.io/signup/';
+const endpoint = 'https://22bb1132efec.ngrok.io/signup/';
 
 /*  This file contains the form logic
     The form have 10 states to control the inputs and send thin to the server
