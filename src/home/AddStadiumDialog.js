@@ -15,12 +15,7 @@ export default function AddStadiumDialog({ isShown, handleClose, addStadium }) {
     };
     const [stadium, setStadium] = useState(initialState);
     const [loading, setLoading] = useState(false);
-    const [submitDisabled, disableSubmit] = useState(false);
     const [error, setError] = useState({ name: '', rows: '', cols: '' });
-
-    useEffect(() => {
-        disableSubmit(stadium.name.length === 0);
-    }, [stadium.name]);
 
     const handleNameChange = (event) => {
         const { value } = event.target;
@@ -46,7 +41,6 @@ export default function AddStadiumDialog({ isShown, handleClose, addStadium }) {
         if (!isShown) {
             setStadium(initialState);
             setLoading(false);
-            disableSubmit(false);
             setError({ name: '', rows: '', cols: '' });
         }
     }, [isShown]);
@@ -134,8 +128,8 @@ export default function AddStadiumDialog({ isShown, handleClose, addStadium }) {
                     </Button>
                     <Button
                         disabled={
-                            submitDisabled ||
                             loading ||
+                            stadium.name === '' ||
                             error.rows.length + error.cols.length + error.name.length !== 0
                         }
                         onClick={() => postStadium(stadium)}

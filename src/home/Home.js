@@ -89,9 +89,9 @@ function Home() {
         fetchTeams();
     }, []);
 
-    const addNewMatch = (editState) => {
+    const addNewMatch = (newMatch) => {
         showAddingMatch(false);
-        setMatches([{ ...editState, datetime: `${editState.date}T${editState.time}` }, ...matches]);
+        setMatches([newMatch, ...matches]);
     };
 
     const addStadium = (stadium) => {
@@ -159,7 +159,7 @@ function Home() {
                         teams={teams}
                         toBeAdded
                         dialogClose={() => showAddingMatch(false)}
-                        dialogDone={addNewMatch}
+                        addNewMatch={addNewMatch}
                     />
                 ) : null}
             </Dialog>

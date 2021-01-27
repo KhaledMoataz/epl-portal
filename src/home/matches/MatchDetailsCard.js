@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { LinearProgress } from '@material-ui/core';
 import DateTimeWrapper from './DateTimeWrapper';
 
-function MatchDetailsCard({ match, teams, stadiums, toBeAdded, dialogClose, dialogDone }) {
+function MatchDetailsCard({ match, teams, stadiums, toBeAdded, dialogClose, addNewMatch }) {
     const states = Object.freeze({
         guest: 0,
         user: 1,
@@ -17,17 +18,66 @@ function MatchDetailsCard({ match, teams, stadiums, toBeAdded, dialogClose, dial
         date: dateTime.getDateSelectFormat(),
         time: dateTime.getTimeInputFormat()
     });
+    const [loading, setLoading] = useState(false);
     const history = useHistory();
+
+    const postMatch = (isNew) => {
+        const matchState = { ...editState, datetime: `${editState.date}T${editState.time}` };
+        let matchObj = isNew ? {} : { _id: matchState.id };
+        matchObj = {
+            ...matchObj,
+            time: matchState.datetime,
+            match_venue: matchState.stadium,
+            home_team: matchState.homeTeam,
+            homeTeamLogo: matchState.homeTeamLogo,
+            away_team: matchState.awayTeam,
+            awayTeamLogo: matchState.awayTeamLogo,
+            referee: matchState.referee,
+            linesman1: matchState.firstLinesman,
+            linesman2: matchState.secondLinesman
+        };
+        const requestOptions = {
+            method: `${isNew ? 'POST' : 'PUT'}`,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(matchObj)
+        };
+        setLoading(true);
+        fetch(`https://f31cbb2ba792.ngrok.io/matches/${isNew ? 'add' : 'edit'}`, requestOptions)
+            .then((response) => {
+                setLoading(false);
+                if (isNew || !response.ok) {
+                    return response
+                        .json()
+                        .then((responseObj) => ({ ok: response.ok, data: responseObj }));
+                }
+                setMatchDetails(matchState);
+                setState(states.manager);
+                throw Error('ok');
+            })
+            .then(({ ok, data }) => {
+                setLoading(false);
+                console.log(data);
+                if (ok) {
+                    addNewMatch({ id: data.id, ...matchState });
+                } else {
+                    // validation error
+                }
+            })
+            .catch((errorThrown) => {
+                if (errorThrown.message === 'ok') return;
+                setLoading(false);
+                alert(errorThrown.message);
+            });
+    };
 
     // Done editing or Show Details or Buy Tickets / toBeAdded? dialog done
     const handlePrimaryClick = () => {
         if (toBeAdded) {
-            dialogDone(editState);
+            postMatch(true);
         } else if (state !== states.guest && state !== states.managerEditable) {
             history.push('/reservation');
         } else if (state === states.managerEditable) {
-            setMatchDetails({ ...editState, datetime: `${editState.date}T${editState.time}` });
-            setState(states.manager);
+            postMatch(false);
         }
     };
 
@@ -40,6 +90,11 @@ function MatchDetailsCard({ match, teams, stadiums, toBeAdded, dialogClose, dial
         if (state === states.managerEditable) {
             setState(states.manager);
         } else if (state === states.manager) {
+            setEditState({
+                ...matchDetails,
+                date: dateTime.getDateSelectFormat(),
+                time: dateTime.getTimeInputFormat()
+            });
             setState(states.managerEditable);
         }
     };
@@ -73,9 +128,15 @@ function MatchDetailsCard({ match, teams, stadiums, toBeAdded, dialogClose, dial
         setEditState(newState);
     };
 
+    const isValid = () =>
+        editState.referee !== '' &&
+        editState.firstLinesman !== '' &&
+        editState.secondLinesman !== '';
+
     if (state === states.managerEditable || toBeAdded) {
         return (
             <div className={`card match-details shadow-sm rounded ${toBeAdded ? 'm-0' : ''}`}>
+                {loading ? <LinearProgress /> : null}
                 <div className="top-info">
                     <input
                         type="date"
@@ -186,12 +247,17 @@ function MatchDetailsCard({ match, teams, stadiums, toBeAdded, dialogClose, dial
                     </table>
                     <div style={{ marginLeft: 'auto' }} />
                     <button
+                        disabled={loading}
                         type="button"
                         className="btn btn-secondary edit-match-details-btn"
                         onClick={handleSecondaryClick}>
                         Cancel
                     </button>
-                    <button type="button" className="btn btn-primary" onClick={handlePrimaryClick}>
+                    <button
+                        disabled={loading || !isValid()}
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={handlePrimaryClick}>
                         Done
                     </button>
                 </div>
