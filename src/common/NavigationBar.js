@@ -43,7 +43,7 @@ const NavigationBar = () => {
                         <Nav.Item>
                             <Nav.Link>
                                 <Link
-                                    to="/my-reservations"
+                                    to="/"
                                     onClick={() =>
                                         dispatch({ type: 'MY_MATCHES_ONLY', payload: true })
                                     }>

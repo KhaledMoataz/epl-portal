@@ -16,7 +16,6 @@ const App = () => (
             <ErrorDialog />
             <Switch>
                 <Route exact path="/" component={Home} />
-                <Route exact path="/my-reservations" component={Home} />
                 <Route path="/reservation" component={ReservationPage} />
                 <Route path="/signup" component={Signup} />
                 <Route path="/login" component={Login} />

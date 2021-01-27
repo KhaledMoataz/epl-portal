@@ -9,7 +9,7 @@ import Loading from '../common/Loading';
 import MatchDetailsCard from './matches/MatchDetailsCard';
 import AddStadiumDialog from './AddStadiumDialog';
 import { Context } from '../Store';
-import { BASE_URL, getRequestOptions, MANAGER } from '../common/constants';
+import { BASE_URL, getRequestOptions, GUEST, MANAGER } from '../common/constants';
 
 // fake data
 import matchesFile from './fake-data/matches-details';
@@ -17,20 +17,21 @@ import stadiumsFile from './fake-data/stadiums';
 import teamsFile from './fake-data/teams';
 
 const Home = () => {
-    const useFakeData = true;
+    const useFakeData = false;
     const [matches, setMatches] = useState(null);
     const [stadiums, setStadiums] = useState(null);
     const [teams, setTeams] = useState(null);
     const [isAddingMatchShown, showAddingMatch] = useState(false);
     const [isAddingStadiumShown, showAddingStadium] = useState(false);
-    const [globalState] = useContext(Context);
-    const [cookies] = useCookies(['jwt']);
+    const [globalState, dispatch] = useContext(Context);
+    const [cookies] = useCookies(['jwt', 'role']);
 
-    // TODO extract token and userType from cookies
-    const userType = MANAGER;
+    const userType = typeof cookies.role === 'undefined' ? GUEST : cookies.role;
     const token = cookies.jwt;
     console.log(token);
+    console.log(cookies.userType);
     const requestOptions = getRequestOptions(token);
+
     const fetchMatches = () => {
         if (useFakeData) {
             setMatches(matchesFile);
@@ -56,7 +57,14 @@ const Home = () => {
                     secondLinesman: match.linesman2
                 }))
             )
-            .then((data) => setMatches(data));
+            .then((data) => setMatches(data))
+            .catch(() => {
+                setMatches([]);
+                dispatch({
+                    type: 'ERROR',
+                    payload: 'Failed to fetch matches details.'
+                });
+            });
     };
 
     const fetchStadiums = () => {
@@ -74,7 +82,14 @@ const Home = () => {
                     cols: stadium.seats_per_row
                 }))
             )
-            .then((data) => setStadiums(data));
+            .then((data) => setStadiums(data))
+            .catch(() => {
+                setStadiums([]);
+                dispatch({
+                    type: 'ERROR',
+                    payload: 'Failed to fetch stadiums list.'
+                });
+            });
     };
 
     const fetchTeams = () => {
@@ -92,7 +107,14 @@ const Home = () => {
                     logo: team.logo
                 }))
             )
-            .then((data) => setTeams(data));
+            .then((data) => setTeams(data))
+            .catch(() => {
+                setTeams([]);
+                dispatch({
+                    type: 'ERROR',
+                    payload: 'Failed to fetch teams list.'
+                });
+            });
     };
 
     useEffect(() => {
