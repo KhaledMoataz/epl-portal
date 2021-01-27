@@ -4,8 +4,9 @@ import { withRouter } from 'react-router-dom';
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 import FormComponent from './FormComponent';
+import { BASE_URL } from '../common/constants';
 
-const endpoint = 'https://22bb1132efec.ngrok.io/login/';
+const endpoint = `${BASE_URL}/login/`;
 
 /*  This file contains the form logic
     The form have 2 states to control the inputs and send thim to the server
@@ -73,6 +74,7 @@ class Form extends React.Component {
                 return response.json();
             })
             .then((data) => {
+                console.log(data);
                 /* Incorrect  */
                 if (data.msg === 'incorrect username') {
                     this.setState({ user_message: data.msg });
