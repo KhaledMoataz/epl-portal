@@ -11,19 +11,19 @@ import '../common/styles.css';
 function Signup() {
     const myHeader = <h1 className="card-title text-center">Create Account</h1>;
 
-    const mySocial = (
+    /* const mySocial = (
         <div>
             <a href="/" className="btn btn-block btn-google">
-                <i className="fa fa-google-plus" />   Join with Google
+                <i className="fa fa-google-plus" />Join with Google
             </a>
             <a href="/" className="btn btn-block btn-facebook">
-                <i className="fa fa-facebook-f" />   Join with Facebook
+                <i className="fa fa-facebook-f" />Join with Facebook
             </a>
             <div className="divider-text">
                 <span className="bg-light">OR</span>
             </div>
         </div>
-    );
+    ); */
 
     return (
         <div className="container-fluid resize-container">
@@ -31,7 +31,6 @@ function Signup() {
                 <div className="card shadow-lg resize-card col-md-6">
                     <div className="card-body bg-light">
                         {myHeader}
-                        {mySocial}
                         <Form />
                     </div>
                 </div>
