@@ -4,7 +4,14 @@ import { LinearProgress } from '@material-ui/core';
 import 'react-circular-progressbar/dist/styles.css';
 import DateTimeWrapper from './DateTimeWrapper';
 import { Context } from '../../Store';
-import { FAN, GUEST, MANAGER, BASE_URL, buildRequestOptions } from '../../common/constants';
+import {
+    FAN,
+    GUEST,
+    MANAGER,
+    BASE_URL,
+    buildRequestOptions,
+    getLocalISOTime
+} from '../../common/constants';
 import CircularProgress from '../../common/CircularProgress';
 
 function MatchDetailsCard({
@@ -134,7 +141,8 @@ function MatchDetailsCard({
     const isValid = () =>
         editState.referee !== '' &&
         editState.firstLinesman !== '' &&
-        editState.secondLinesman !== '';
+        editState.secondLinesman !== '' &&
+        `${editState.date}T${editState.time}` > getLocalISOTime();
 
     if (editable || toBeAdded) {
         return (
