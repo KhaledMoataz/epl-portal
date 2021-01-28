@@ -19,3 +19,8 @@ export const buildRequestOptions = (method, jwt, obj) => {
 export const getRequestOptions = (jwt) => buildRequestOptions('GET', jwt);
 
 export const getUserType = (role) => (typeof role === 'undefined' ? GUEST : parseInt(role, 4));
+
+export const getLocalISOTime = () => {
+    const timeZoneOffset = new Date().getTimezoneOffset() * 60000;
+    return new Date(Date.now() - timeZoneOffset).toISOString().substr(0, 16);
+};

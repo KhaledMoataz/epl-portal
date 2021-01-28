@@ -9,7 +9,13 @@ import Loading from '../common/Loading';
 import MatchDetailsCard from './matches/MatchDetailsCard';
 import AddStadiumDialog from './AddStadiumDialog';
 import { Context } from '../Store';
-import { BASE_URL, getRequestOptions, getUserType, MANAGER } from '../common/constants';
+import {
+    BASE_URL,
+    getLocalISOTime,
+    getRequestOptions,
+    getUserType,
+    MANAGER
+} from '../common/constants';
 
 // fake data
 import matchesFile from './fake-data/matches-details';
@@ -28,8 +34,6 @@ const Home = () => {
 
     const userType = getUserType(cookies.role);
     const token = cookies.jwt;
-    console.log(token);
-    console.log(userType);
     const requestOptions = getRequestOptions(token);
 
     const fetchMatches = () => {
@@ -199,7 +203,7 @@ const Home = () => {
                 {isAddingMatchShown ? (
                     <MatchDetailsCard
                         match={{
-                            datetime: new Date().toISOString(),
+                            datetime: getLocalISOTime(),
                             stadium: stadiums[0].name,
                             homeTeam: teams[0].name,
                             homeTeamLogo: teams[0].logo,
@@ -207,7 +211,8 @@ const Home = () => {
                             awayTeamLogo: teams[1].logo,
                             referee: '',
                             firstLinesman: '',
-                            secondLinesman: ''
+                            secondLinesman: '',
+                            reservationPercentage: 0
                         }}
                         stadiums={stadiums}
                         teams={teams}
