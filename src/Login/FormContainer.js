@@ -76,13 +76,12 @@ class Form extends React.Component {
             .then((data) => {
                 console.log(data);
                 /* Incorrect  */
-                if (data.msg === 'incorrect username') {
+                if (data.msg.includes('username') || data.msg.includes('Sorry'))
                     this.setState({ user_message: data.msg });
-                } else if (data.msg === 'incorrect password') {
-                    this.setState({ pass_message: data.msg });
-                } else {
+                else if (data.msg.includes('password')) this.setState({ pass_message: data.msg });
+                else {
                     console.log(data);
-                    // setting the token as cookie called jwt
+                    // setting the token as cookie called role
                     if (data.msg === 'Fan') cookies.set('role', 1, { path: '/' });
                     else if (data.msg === 'Manager') cookies.set('role', 2, { path: '/' });
                     else if (data.msg === 'SA') cookies.set('role', 3, { path: '/' });
