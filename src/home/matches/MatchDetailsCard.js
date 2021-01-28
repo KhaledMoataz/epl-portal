@@ -60,7 +60,6 @@ function MatchDetailsCard({
             })
             .then(({ ok, data }) => {
                 setLoading(false);
-                console.log(data);
                 if (ok) {
                     addNewMatch({ id: data.id, ...matchState });
                 } else {
@@ -79,8 +78,7 @@ function MatchDetailsCard({
         if (toBeAdded) {
             postMatch(true);
         } else if (userType !== GUEST && !editable) {
-            // TODO /reservation/id
-            history.push('/reservation');
+            history.push(`/reservation?matchId=${matchDetails.id}`);
         } else if (editable) {
             postMatch(false);
         }
