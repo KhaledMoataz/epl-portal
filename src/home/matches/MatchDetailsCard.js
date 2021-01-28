@@ -187,7 +187,9 @@ function MatchDetailsCard({
                                 ))}
                             </select>
                         </div>
-                        <CircularProgress progress={matchDetails.reservationPercentage} />
+                        {!toBeAdded && (
+                            <CircularProgress progress={matchDetails.reservationPercentage} />
+                        )}
                         <div className="team away-team">
                             <img
                                 className="team-logo"
