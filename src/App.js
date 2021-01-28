@@ -6,6 +6,7 @@ import ReservationPage from './reservation/ReservationPage';
 import Signup from './Signup/Signup';
 import Login from './Login/Login';
 import Profile from './Profile/Profile';
+import Admin from './Admin/Admin';
 import Store from './Store';
 import ErrorDialog from './common/ErrorDialog';
 
@@ -20,6 +21,7 @@ const App = () => (
                 <Route path="/signup" component={Signup} />
                 <Route path="/login" component={Login} />
                 <Route path="/profile" component={Profile} />
+                <Route path="/admin" component={Admin} />
             </Switch>
         </Router>
     </Store>
