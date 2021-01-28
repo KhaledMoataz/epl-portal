@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { LinearProgress } from '@material-ui/core';
-import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import DateTimeWrapper from './DateTimeWrapper';
 import { Context } from '../../Store';
 import { FAN, GUEST, MANAGER, BASE_URL, buildRequestOptions } from '../../common/constants';
+import CircularProgress from '../../common/CircularProgress';
 
 function MatchDetailsCard({
     match,
@@ -189,6 +189,7 @@ function MatchDetailsCard({
                                 ))}
                             </select>
                         </div>
+                        <CircularProgress progress={matchDetails.reservationPercentage} />
                         <div className="team away-team">
                             <img
                                 className="team-logo"
@@ -287,13 +288,7 @@ function MatchDetailsCard({
                         />
                         <div className="team-name">{matchDetails.homeTeam}</div>
                     </div>
-                    <div className="reservation_percentage">
-                        <CircularProgressbar
-                            className="reservation_percentage"
-                            value={matchDetails.reservationPercentage}
-                            text={`${matchDetails.reservationPercentage}%`}
-                        />
-                    </div>
+                    <CircularProgress progress={matchDetails.reservationPercentage} />
                     <div className="team away-team">
                         <img
                             className="team-logo"
