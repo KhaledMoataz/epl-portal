@@ -207,7 +207,8 @@ const Home = () => {
                             awayTeamLogo: teams[1].logo,
                             referee: '',
                             firstLinesman: '',
-                            secondLinesman: ''
+                            secondLinesman: '',
+                            reservationPercentage: 0
                         }}
                         stadiums={stadiums}
                         teams={teams}
