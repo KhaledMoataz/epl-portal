@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { useCookies } from 'react-cookie';
-import { BASE_URL, getUserType, buildRequestOptions, FAN } from '../common/constants';
+import { BASE_URL, getUserType, getRequestOptions, FAN } from '../common/constants';
 import './reservation.css';
 
 const BookButton = () => (
@@ -20,11 +20,6 @@ const BookedButton = () => (
     </Button>
 );
 
-// const isBooked = [
-//     [-1, 0, 0, 0, 0, 1, 1, -1, -1],
-//     [0, 1, 0, 0, -1, -1, -1, 0, -1]
-// ];
-
 const ReservationTable = (props) => {
     const [seats, setSeats] = useState([[]]);
     const [cookies] = useCookies(['jwt', 'role']);
@@ -32,18 +27,18 @@ const ReservationTable = (props) => {
     const userType = getUserType(cookies.role);
     const token = cookies.jwt;
     const { matchId } = props;
-
-    const fetchSeats = () => {
-        const requestOptions = buildRequestOptions('POST', token, { matchId });
-        console.log(requestOptions);
-        fetch(`${BASE_URL}/matches/grid}`, requestOptions).then((response) => {
-            console.log('Response: ', response);
-            return response.grid;
-        });
-    };
+    const requestOptions = getRequestOptions(token);
 
     useEffect(() => {
-        setSeats(fetchSeats());
+        const fetchSeats = async () => {
+            const response = await fetch(
+                `${BASE_URL}/matches/grid?matchId=${matchId}`,
+                requestOptions
+            );
+            const { grid } = await response.json();
+            setSeats(grid);
+        };
+        fetchSeats();
     }, []);
 
     return (
