@@ -12,7 +12,7 @@ export const buildRequestOptions = (method, jwt, obj) => {
             jwt
         }
     };
-    if (typeof obj !== 'undefined') requestOptions.headers.body = JSON.stringify(obj);
+    if (typeof obj !== 'undefined') requestOptions.body = JSON.stringify(obj);
     return requestOptions;
 };
 

@@ -12,28 +12,34 @@ import React from 'react';
 
 const FormComponent = (props) => (
     <form className="form-data" onSubmit={props.submitHandler}>
-        <div className="form-group required text-uppercase font-weight-bold ">
+        <div className="text-uppercase font-weight-bold ">
             Username
-            <input
-                name="username"
-                onChange={props.changeHandler}
-                type="text"
-                placeholder="Enter username"
-                required
-                className={`form-control mt-1 ${props.user_message ? 'is-invalid' : ''}`}
-            />
+            <div className="form-group input-group required ">
+                <input
+                    name="username"
+                    onChange={props.changeHandler}
+                    type="text"
+                    placeholder="Enter username"
+                    required
+                    className={`form-control mt-1 ${props.user_message ? 'is-invalid' : ''}`}
+                />
+                <div className="invalid-feedback">{props.user_message}</div>
+            </div>
         </div>
 
-        <div className="form-group required text-uppercase font-weight-bold ">
+        <div className="text-uppercase font-weight-bold ">
             Password
-            <input
-                name="password"
-                onChange={props.changeHandler}
-                type="password"
-                placeholder="Enter password"
-                required
-                className={`form-control mt-1 ${props.pass_message ? 'is-invalid' : ''}`}
-            />
+            <div className="form-group input-group required ">
+                <input
+                    name="password"
+                    onChange={props.changeHandler}
+                    type="password"
+                    placeholder="Enter password"
+                    required
+                    className={`form-control mt-1 ${props.pass_message ? 'is-invalid' : ''}`}
+                />
+                <div className="invalid-feedback">{props.pass_message}</div>
+            </div>
         </div>
 
         <div className="form-group input-group text-center">

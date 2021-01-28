@@ -1,9 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { LinearProgress } from '@material-ui/core';
+import 'react-circular-progressbar/dist/styles.css';
 import DateTimeWrapper from './DateTimeWrapper';
 import { Context } from '../../Store';
 import { FAN, GUEST, MANAGER, BASE_URL, buildRequestOptions } from '../../common/constants';
+import CircularProgress from '../../common/CircularProgress';
 
 function MatchDetailsCard({
     match,
@@ -58,7 +60,6 @@ function MatchDetailsCard({
             })
             .then(({ ok, data }) => {
                 setLoading(false);
-                console.log(data);
                 if (ok) {
                     addNewMatch({ id: data.id, ...matchState });
                 } else {
@@ -77,8 +78,7 @@ function MatchDetailsCard({
         if (toBeAdded) {
             postMatch(true);
         } else if (userType !== GUEST && !editable) {
-            // TODO /reservation/id
-            history.push('/reservation');
+            history.push(`/reservation?matchId=${matchDetails.id}`);
         } else if (editable) {
             postMatch(false);
         }
@@ -187,6 +187,9 @@ function MatchDetailsCard({
                                 ))}
                             </select>
                         </div>
+                        {!toBeAdded && (
+                            <CircularProgress progress={matchDetails.reservationPercentage} />
+                        )}
                         <div className="team away-team">
                             <img
                                 className="team-logo"
@@ -285,6 +288,7 @@ function MatchDetailsCard({
                         />
                         <div className="team-name">{matchDetails.homeTeam}</div>
                     </div>
+                    <CircularProgress progress={matchDetails.reservationPercentage} />
                     <div className="team away-team">
                         <img
                             className="team-logo"

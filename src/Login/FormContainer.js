@@ -4,8 +4,9 @@ import { withRouter } from 'react-router-dom';
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 import FormComponent from './FormComponent';
+import { BASE_URL } from '../common/constants';
 
-const endpoint = 'https://22bb1132efec.ngrok.io/login/';
+const endpoint = `${BASE_URL}/login/`;
 
 /*  This file contains the form logic
     The form have 2 states to control the inputs and send thim to the server
@@ -73,14 +74,14 @@ class Form extends React.Component {
                 return response.json();
             })
             .then((data) => {
+                console.log(data);
                 /* Incorrect  */
-                if (data.msg === 'incorrect username') {
+                if (data.msg.includes('username') || data.msg.includes('Sorry'))
                     this.setState({ user_message: data.msg });
-                } else if (data.msg === 'incorrect password') {
-                    this.setState({ pass_message: data.msg });
-                } else {
+                else if (data.msg.includes('password')) this.setState({ pass_message: data.msg });
+                else {
                     console.log(data);
-                    // setting the token as cookie called jwt
+                    // setting the token as cookie called role
                     if (data.msg === 'Fan') cookies.set('role', 1, { path: '/' });
                     else if (data.msg === 'Manager') cookies.set('role', 2, { path: '/' });
                     else if (data.msg === 'SA') cookies.set('role', 3, { path: '/' });

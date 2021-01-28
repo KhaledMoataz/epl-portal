@@ -54,7 +54,8 @@ const Home = () => {
                     awayTeamLogo: match.awayTeamLogo,
                     referee: match.referee,
                     firstLinesman: match.linesman1,
-                    secondLinesman: match.linesman2
+                    secondLinesman: match.linesman2,
+                    reservationPercentage: match.reservationPercentage
                 }))
             )
             .then((data) => setMatches(data))
