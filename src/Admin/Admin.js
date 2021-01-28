@@ -1,11 +1,16 @@
 import React from 'react';
+import Item from './Item';
 
 const Admin = () => (
     <div className="container-fluid py-3">
         <div className="row">
-            <div className="text-center col-6">List for Managers with accept or cancel</div>
+            <div className="col-6">
+                <Item columnNum="1" />
+            </div>
 
-            <div className="text-center col-6">List for All users with delete</div>
+            <div className="col-6">
+                <Item columnNum="2" />
+            </div>
         </div>
     </div>
 );
