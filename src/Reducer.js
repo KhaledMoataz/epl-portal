@@ -10,6 +10,11 @@ const Reducer = (state, action) => {
                 ...state,
                 error: action.payload
             };
+        case 'NOTIFICATION':
+            return {
+                ...state,
+                notification: action.payload
+            };
         default:
             return state;
     }

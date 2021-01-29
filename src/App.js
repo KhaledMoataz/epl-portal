@@ -9,11 +9,13 @@ import Profile from './Profile/Profile';
 import Admin from './Admin/Admin';
 import Store from './Store';
 import ErrorDialog from './common/ErrorDialog';
+import NotificationsToaster from './common/NotificatonsToast';
 
 const App = () => (
     <Store>
         <Router>
             <NavigationBar />
+            <NotificationsToaster />
             <ErrorDialog />
             <Switch>
                 <Route exact path="/" component={Home} />

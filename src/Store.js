@@ -3,7 +3,8 @@ import Reducer from './Reducer';
 
 const initialState = {
     showMyMatchesOnly: false,
-    error: null
+    error: null,
+    notification: { title: '', body: '' }
 };
 
 const Store = ({ children }) => {

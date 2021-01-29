@@ -1,5 +1,5 @@
 import React from 'react';
-import MatchDetailsCard from './MatchDetailsCard';
+import MatchDetailsCard from '../../common/MatchDetailsCard';
 
 function MatchDetailsList({ matches, stadiums, teams, userType, token }) {
     if (matches === null) return null;
