@@ -70,17 +70,14 @@ class Form extends React.Component {
                 // setting the token as cookie called jwt
                 cookies.set('jwt', response.headers.get('jwt'), { path: '/' });
 
-                console.log(cookies.cookies.jwt);
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
                 /* Incorrect  */
                 if (data.msg.includes('username') || data.msg.includes('Sorry'))
                     this.setState({ user_message: data.msg });
                 else if (data.msg.includes('password')) this.setState({ pass_message: data.msg });
                 else {
-                    console.log(data);
                     // setting the token as cookie called role
                     if (data.msg === 'Fan') cookies.set('role', 1, { path: '/' });
                     else if (data.msg === 'Manager') cookies.set('role', 2, { path: '/' });

@@ -101,7 +101,6 @@ class Form extends React.Component {
     }
 
     render() {
-        console.log(JSON.stringify(this.state));
         return (
             <FormComponent
                 changeHandler={this.changeHandler}

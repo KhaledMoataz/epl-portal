@@ -8,37 +8,92 @@ const Admin = () => {
     const [users, setUsers] = useState(null);
     const [managers, setManagers] = useState(null);
     const [cookies] = useCookies(['jwt', 'role']);
+    const [refreshKey, setRefreshKey] = useState(0); // using it refresh the content
 
     const token = cookies.jwt;
     const requestOptions = getRequestOptions(token);
 
     useEffect(() => {
-        fetch(`${BASE_URL}/admin/users`, requestOptions)
+        fetch(`${BASE_URL}/allUsers`, requestOptions)
             .then((response) => response.json())
-            .then((response) => response.users.map((user) => ({ username: user.username })))
-            .then((data) => setUsers(data));
-        setUsers([{ username: 'aymanazzam' }, { username: 'aymanazzam2' }]);
+            .then((data) => {
+                console.log(data.registered);
+                setUsers(data.registered);
+                setManagers(data.pending);
+            })
+            .catch(() => {
+                setUsers([]);
+                setManagers([]);
+            });
+    }, [refreshKey]);
 
-        fetch(`${BASE_URL}/admin/managers`, requestOptions)
+    const handleAcception = (Username) => {
+        fetch(`${BASE_URL}/authenticate`, {
+            method: 'PUT',
+            headers: {
+                jwt: token,
+                'Content-Type': 'application/json',
+                Accept: 'application/json'
+            },
+            body: JSON.stringify({ username: Username })
+        })
             .then((response) => response.json())
-            .then((response) =>
-                response.managers.map((manager) => ({
-                    username: manager.username
-                }))
-            )
-            .then((data) => setUsers(data));
-        setManagers([{ username: 'aymanazzam manager' }, { username: 'aymanazzam2 manager' }]);
-    }, []);
+            .then((data) => {
+                // Deleting the user
+                if (data.msg.includes('authenticate')) {
+                    const newManagers = managers.filter((manager) => manager.username !== Username);
+                    setManagers(newManagers);
+                    setRefreshKey((oldKey) => oldKey + 1);
+                }
+            });
+    };
+
+    const handleDelete = (Username, OldUser) => {
+        fetch(`${BASE_URL}/delete`, {
+            method: 'DELETE',
+            headers: {
+                jwt: token,
+                'Content-Type': 'application/json',
+                Accept: 'application/json'
+            },
+            body: JSON.stringify({ username: Username })
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.msg.includes('delete')) {
+                    if (OldUser) {
+                        const newUsers = users.filter((user) => user.username !== Username);
+                        setUsers(newUsers);
+                    } else {
+                        const newManagers = managers.filter(
+                            (manager) => manager.username !== Username
+                        );
+                        setManagers(newManagers);
+                    }
+                    setRefreshKey((oldKey) => oldKey + 1);
+                }
+            });
+    };
 
     return (
-        <div className="container-fluid py-5">
+        <div className="container-fluid py-5 px-5">
+            <div className="row">
+                <h1 className="text-center col-6">Pending</h1>
+
+                <h1 className="text-center col-6">ALL Users</h1>
+            </div>
+
             <div className="row">
                 <div className="col-6 border border-primary">
-                    <WaitingList waitingList={managers} />
+                    <WaitingList
+                        Deletion={handleDelete}
+                        Acceptoion={handleAcception}
+                        waitingList={managers}
+                    />
                 </div>
 
                 <div className="col-6 border border-primary">
-                    <UsersList users={users} />
+                    <UsersList DeleteUser={handleDelete} users={users} />
                 </div>
             </div>
         </div>

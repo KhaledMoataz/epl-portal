@@ -60,8 +60,6 @@ class DataForm extends React.Component {
                 response.json().then((jsonResponse) => ({ ok: response.ok, data: jsonResponse }))
             )
             .then(({ ok, data }) => {
-                console.log(ok);
-                console.log(data);
                 if (ok) this.setState({ ...data, birthdate: data.birthdate.substr(0, 10) });
                 else {
                     // Redirect the user to the login page
@@ -102,8 +100,6 @@ class DataForm extends React.Component {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
-                console.log(0);
                 if (data.msg !== 'success') {
                     this.setState({ pass_message: data.msg });
                 } else {

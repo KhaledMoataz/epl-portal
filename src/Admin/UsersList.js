@@ -1,15 +1,17 @@
 import React from 'react';
 import Item from './Item';
 
-function UsersList({ users }) {
-    const handleDelete = () => {
-        console.log('Delete');
-    };
-
+function UsersList({ users, DeleteUser }) {
     if (users === null) return null;
 
     const allUsers = users.map((user) => (
-        <Item Delete={handleDelete} username={user.username} columnNum="2" />
+        <Item
+            key={user.username}
+            username={user.username}
+            role={user.role}
+            Delete={DeleteUser}
+            columnNum="2"
+        />
     ));
     return allUsers;
 }

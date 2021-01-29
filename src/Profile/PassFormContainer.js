@@ -80,7 +80,6 @@ class PassForm extends React.Component {
                 let oldPassMessage = data.old_password;
                 let newPassMessage = data.new_password;
                 let confirmPassMessage = data.confirm;
-                console.log(data);
 
                 if (data.msg === 'error') {
                     /*  The Message that empty it means it's not thre reason for the erron so
