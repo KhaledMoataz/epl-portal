@@ -39,7 +39,7 @@ const BookDialog = (props) => {
 
     return (
         <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Book Seat</DialogTitle>
+            <DialogTitle id="form-dialog-title">Unbook Seat</DialogTitle>
             <DialogContent>
                 <DialogContentText>
                     Are you sure you want to cancel your reservation?
