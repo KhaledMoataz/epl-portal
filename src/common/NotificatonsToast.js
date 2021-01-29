@@ -16,7 +16,7 @@ const NotificatonsToast = () => {
                 width: '100%',
                 zIndex: 9999
             }}
-            show={globalState.notification.title.length}
+            show={globalState.notification.title.length > 0}
             onClose={handleClose}
             delay={3000}
             autohide>
