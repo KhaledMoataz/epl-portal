@@ -10,8 +10,8 @@
     flex-direction: column;
     align-items: center;
     padding: 10px;
-    overflow-x: auto; 
-    overflow-y: auto; 
+    overflow-x: auto;
+    overflow-y: auto;
 }
 
 .reservation-row {
