@@ -4,7 +4,7 @@ import { Nav, Navbar } from 'react-bootstrap';
 import styled from 'styled-components';
 import { useCookies } from 'react-cookie';
 import { Context } from '../Store';
-import { FAN, getUserType, GUEST } from './constants';
+import { FAN, ADMIN, getUserType, GUEST } from './constants';
 
 const Styles = styled.div`
     .navbar {
@@ -55,6 +55,13 @@ const NavigationBar = () => {
                                         }>
                                         My Reservations
                                     </Link>
+                                </Nav.Link>
+                            </Nav.Item>
+                        )}
+                        {userType === ADMIN && (
+                            <Nav.Item>
+                                <Nav.Link>
+                                    <Link to="/admin">Admin</Link>
                                 </Nav.Link>
                             </Nav.Item>
                         )}
