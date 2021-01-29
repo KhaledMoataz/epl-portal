@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button } from 'react-bootstrap';
 import { useCookies } from 'react-cookie';
 import { CircularProgress } from '@material-ui/core';
 import { BASE_URL, getUserType, getRequestOptions, FAN } from '../common/constants';
 import BookButton from './BookButton';
 import UnbookButton from './UnbookButton';
+import { Context } from '../Store';
 import './reservation.css';
 
 const BookedButton = () => (
@@ -16,6 +17,7 @@ const BookedButton = () => (
 const ReservationTable = (props) => {
     // eslint-disable-next-line no-unused-vars
     const [seats, setSeats] = useState([[]]);
+    const [, dispatch] = useContext(Context);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [cookies] = useCookies(['jwt', 'role']);
@@ -35,10 +37,11 @@ const ReservationTable = (props) => {
             })
             .catch((e) => {
                 setError(true);
-                props.notify({
+                const notification = {
                     title: 'Error',
                     body: e.message
-                });
+                };
+                dispatch({ type: 'NOTIFICATION', payload: notification });
                 setLoading(false);
             });
     };

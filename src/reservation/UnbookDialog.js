@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -6,10 +6,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useCookies } from 'react-cookie';
+import { Context } from '../Store';
 import { BASE_URL, buildRequestOptions } from '../common/constants';
 
 const BookDialog = (props) => {
     const [cookies] = useCookies(['jwt', 'role']);
+    const [, dispatch] = useContext(Context);
     const token = cookies.jwt;
     const { matchId, seatId } = props;
 
@@ -21,18 +23,20 @@ const BookDialog = (props) => {
 
         fetch(`${BASE_URL}/matches/reservation`, requestOptions)
             .then((response) => response.json())
-            .then(() => {
-                props.notify({
+            .then((data) => {
+                const notification = {
                     title: 'Sucessfully Cancelled.',
-                    body: `Seat ${seatId + 1}`
-                });
+                    body: `${data.msg} Seat ${seatId + 1}`
+                };
+                dispatch({ type: 'NOTIFICATION', payload: notification });
                 props.handleClose();
             })
             .catch((e) => {
-                props.notify({
+                const notification = {
                     title: 'Error!',
                     body: e.message
-                });
+                };
+                dispatch({ type: 'NOTIFICATION', payload: notification });
                 props.handleClose();
             });
     };

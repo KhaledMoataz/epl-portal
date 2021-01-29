@@ -24,7 +24,6 @@ const UnbookButton = (props) => {
                 matchId={matchId}
                 open={showDialog}
                 handleClose={handleCloseDialog}
-                notify={props.notify}
             />
             <Button className="reservation-button" variant="outline-danger" onClick={handleClick}>
                 Unbook
