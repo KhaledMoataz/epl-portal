@@ -2,17 +2,10 @@ import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { LinearProgress } from '@material-ui/core';
 import 'react-circular-progressbar/dist/styles.css';
-import DateTimeWrapper from './DateTimeWrapper';
-import { Context } from '../../Store';
-import {
-    FAN,
-    GUEST,
-    MANAGER,
-    BASE_URL,
-    buildRequestOptions,
-    getLocalISOTime
-} from '../../common/constants';
-import CircularProgress from '../../common/CircularProgress';
+import DateTimeWrapper from '../home/matches/DateTimeWrapper';
+import { Context } from '../Store';
+import { FAN, GUEST, MANAGER, BASE_URL, buildRequestOptions, getLocalISOTime } from './constants';
+import CircularProgress from './CircularProgress';
 
 function MatchDetailsCard({
     match,

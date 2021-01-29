@@ -5,11 +5,13 @@
 }
 
 .reservation-window {
-    background-color: #faf8a19d;
+    /* background-color: #faf8a19d; */
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 10px;
+    overflow-x: auto; 
+    overflow-y: auto; 
 }
 
 .reservation-row {

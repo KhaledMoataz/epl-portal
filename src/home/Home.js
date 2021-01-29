@@ -6,7 +6,7 @@ import MatchDetailsList from './matches/MatchDetailsList';
 import TeamList from './teams/TeamList';
 import StadiumList from './stadiums/StadiumList';
 import Loading from '../common/Loading';
-import MatchDetailsCard from './matches/MatchDetailsCard';
+import MatchDetailsCard from '../common/MatchDetailsCard';
 import AddStadiumDialog from './AddStadiumDialog';
 import { Context } from '../Store';
 import {
