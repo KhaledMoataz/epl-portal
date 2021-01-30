@@ -22,11 +22,15 @@ const BookDialog = (props) => {
         });
 
         fetch(`${BASE_URL}/matches/reservation`, requestOptions)
-            .then((response) => response.json())
+            .then((response) => {
+                if (response.status === 401) throw Error('Please login first.');
+                else if (response.status === 400) throw Error('This seat is not booked!');
+                else return response.json();
+            })
             .then((data) => {
                 const notification = {
                     title: 'Sucessfully Cancelled.',
-                    body: `${data.msg} Seat ${seatId + 1}`
+                    body: `${data.msg} for seat ${seatId + 1}`
                 };
                 dispatch({ type: 'NOTIFICATION', payload: notification });
                 props.handleClose();

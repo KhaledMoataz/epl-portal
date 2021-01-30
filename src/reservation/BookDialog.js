@@ -35,7 +35,11 @@ const BookDialog = (props) => {
         });
 
         fetch(`${BASE_URL}/matches/reservation`, requestOptions)
-            .then((response) => response.json())
+            .then((response) => {
+                if (response.status === 401) throw Error('Please login first.');
+                else if (response.status === 400) throw Error('This seat is already booked.');
+                else return response.json();
+            })
             .then((data) => {
                 const notification = {
                     title: 'Sucessfully Booked.',

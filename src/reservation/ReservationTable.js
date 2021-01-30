@@ -32,7 +32,8 @@ const ReservationTable = (props) => {
         fetch(`${BASE_URL}/matches/grid?matchId=${matchId}`, requestOptions)
             .then((response) => {
                 if (response.status === 401) throw Error('Please login first.');
-                return response.json();
+                else if (response.status === 400) throw Error('Match ID is invalid.');
+                else return response.json();
             })
             .then((data) => {
                 setSeats(data.grid);
