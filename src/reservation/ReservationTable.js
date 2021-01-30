@@ -30,7 +30,10 @@ const ReservationTable = (props) => {
     const fetchSeats = () => {
         setLoading(true);
         fetch(`${BASE_URL}/matches/grid?matchId=${matchId}`, requestOptions)
-            .then((response) => response.json())
+            .then((response) => {
+                if (response.status === 401) throw Error('Please login first.');
+                return response.json();
+            })
             .then((data) => {
                 setSeats(data.grid);
                 setLoading(false);

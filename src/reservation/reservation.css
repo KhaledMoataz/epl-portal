@@ -24,3 +24,12 @@
     width: 100px;
     height: 100px;
 }
+
+.match-details-bg {
+    display: flex;
+    justify-content: center;
+}
+
+.match-details-window { 
+    width: 50%;
+}
