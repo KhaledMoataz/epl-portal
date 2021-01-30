@@ -10,7 +10,7 @@ const ReservationPage = (props) => {
 
     return (
         <>
-            <h1>Reservation</h1>
+            {/* <h1>Reservation</h1> */}
             <MatchDetails matchId={matchId} />
             <ReservationTable matchId={matchId} />
         </>

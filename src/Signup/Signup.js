@@ -1,5 +1,8 @@
 import React from 'react';
+import { useCookies } from 'react-cookie';
+import { Redirect } from 'react-router';
 import Form from './FormContainer';
+import { getUserType, GUEST } from '../common/constants';
 import '../common/styles.css';
 
 /*  Singup is a Card, and its body consists of three components
@@ -9,6 +12,9 @@ import '../common/styles.css';
 */
 
 function Signup() {
+    const [cookies] = useCookies(['jwt', 'role']);
+    const userType = getUserType(cookies.role);
+
     const myHeader = <h1 className="card-title text-center">Create Account</h1>;
 
     /* const mySocial = (
@@ -25,7 +31,9 @@ function Signup() {
         </div>
     ); */
 
-    return (
+    return userType !== GUEST ? (
+        <Redirect to="/" />
+    ) : (
         <div className="container-fluid resize-container">
             <div className="row resize-page justify-content-md-center">
                 <div className="card shadow-lg resize-card col-md-6">
