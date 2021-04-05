@@ -2,6 +2,20 @@
 
 Frontend for Egyptian Premier League Match Reservation System
 
+# Deployment on EC2
+1. Create an EC2 instance and connect to it.
+2. Clone this repo on the instance.
+3. Run the following command to install nodejs and npm:
+```sh
+sudo apt-get install nodejs -y
+sudo apt-get install npm -y
+```
+4. Run the following commands in the repo directory to build/start the app:
+```sh
+npm install
+sudo PORT=80 npm start &
+```  
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
