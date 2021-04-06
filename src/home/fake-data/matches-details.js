@@ -10,7 +10,8 @@ const matchDetails = [
             'https://upload.wikimedia.org/wikipedia/en/thumb/0/04/ZamalekSC.png/180px-ZamalekSC.png',
         referee: 'Ayman Adel',
         firstLinesman: 'Ayman Azzam',
-        secondLinesman: 'Khaled Moataz'
+        secondLinesman: 'Khaled Moataz',
+        reservationPercentage: 0
     },
     {
         id: 1,
@@ -23,7 +24,8 @@ const matchDetails = [
             'https://upload.wikimedia.org/wikipedia/en/thumb/0/04/ZamalekSC.png/180px-ZamalekSC.png',
         referee: 'Ayman Adel',
         firstLinesman: 'Ayman Azzam',
-        secondLinesman: 'Khaled Moataz'
+        secondLinesman: 'Khaled Moataz',
+        reservationPercentage: 3
     },
     {
         id: 2,
@@ -36,7 +38,8 @@ const matchDetails = [
             'https://upload.wikimedia.org/wikipedia/en/thumb/0/04/ZamalekSC.png/180px-ZamalekSC.png',
         referee: 'Ayman Adel',
         firstLinesman: 'Ayman Azzam',
-        secondLinesman: 'Khaled Moataz'
+        secondLinesman: 'Khaled Moataz',
+        reservationPercentage: 50
     }
 ];
 

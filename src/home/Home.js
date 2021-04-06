@@ -23,7 +23,7 @@ import stadiumsFile from './fake-data/stadiums';
 import teamsFile from './fake-data/teams';
 
 const Home = () => {
-    const useFakeData = false;
+    const useFakeData = true;
     const [matches, setMatches] = useState(null);
     const [stadiums, setStadiums] = useState(null);
     const [teams, setTeams] = useState(null);
