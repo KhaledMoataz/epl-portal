@@ -7,7 +7,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { LinearProgress } from '@material-ui/core';
 import { Context } from '../Store';
-import { buildRequestOptions } from '../common/constants';
+import { buildRequestOptions, BASE_URL  } from '../common/constants';
+
 
 export default function AddStadiumDialog({ isShown, handleClose, addStadium, token }) {
     const initialState = {
@@ -56,7 +57,7 @@ export default function AddStadiumDialog({ isShown, handleClose, addStadium, tok
         };
         const requestOptions = buildRequestOptions('POST', token, stadiumObj);
         setLoading(true);
-        fetch('https://f31cbb2ba792.ngrok.io/stadia/add', requestOptions)
+        fetch(`${BASE_URL}/stadia/add`, requestOptions)
             .then((response) => {
                 if (response.ok) {
                     setLoading(false);
