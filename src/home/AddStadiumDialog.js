@@ -7,8 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { LinearProgress } from '@material-ui/core';
 import { Context } from '../Store';
-import { buildRequestOptions, BASE_URL  } from '../common/constants';
-
+import { buildRequestOptions, BASE_URL } from '../common/constants';
 
 export default function AddStadiumDialog({ isShown, handleClose, addStadium, token }) {
     const initialState = {
