@@ -2,7 +2,7 @@ export const GUEST = 0;
 export const FAN = 1;
 export const MANAGER = 2;
 export const ADMIN = 3;
-export const BASE_URL = 'https://680afc7514b7.ngrok.io';
+export const BASE_URL = 'http://7e47862647d8.ngrok.io';
 
 export const buildRequestOptions = (method, jwt, obj) => {
     const requestOptions = {
